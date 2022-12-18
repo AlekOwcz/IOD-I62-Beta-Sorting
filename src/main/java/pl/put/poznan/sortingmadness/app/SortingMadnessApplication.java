@@ -26,7 +26,7 @@ public class SortingMadnessApplication implements CommandLineRunner {
         System.out.println("1. Sort a one dimensional array");
         System.out.println("2. Sort an array of objects");
         System.out.println(">");
-
+//
         String sortObject = myInput.nextLine();
         switch(sortObject){
             case "1":
