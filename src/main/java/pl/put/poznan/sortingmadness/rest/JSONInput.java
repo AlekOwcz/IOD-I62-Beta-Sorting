@@ -2,19 +2,16 @@ package pl.put.poznan.sortingmadness.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class JSONInputObj {
+public class JSONInput {
     @JsonProperty("algorithms")
     private Object algorithms;
 
     @JsonProperty("data")
     private Object data;
 
-    @JsonProperty("attribute")
-    private String attribute;
-    public JSONInputObj(@JsonProperty("data") Object data, @JsonProperty("algorithms") Object algorithms, @JsonProperty("algorithms") String attribute) {
+    public JSONInput(@JsonProperty("data") Object data, @JsonProperty("algorithms") Object algorithms) {
         this.algorithms = algorithms;
         this.data = data;
-        this.attribute = attribute;
     }
 
     public Object getAlgorithms() {

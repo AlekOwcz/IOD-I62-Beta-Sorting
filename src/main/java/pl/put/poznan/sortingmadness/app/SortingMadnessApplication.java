@@ -16,5 +16,4 @@ public class SortingMadnessApplication {
         SpringApplication.run(SortingMadnessApplication.class, args);
     }
 
-    }
 }

@@ -11,7 +11,7 @@ public class JSONInputObj {
 
     @JsonProperty("attribute")
     private String attribute;
-    public JSONInputObj(@JsonProperty("data") Object data, @JsonProperty("algorithms") Object algorithms, @JsonProperty("algorithms") String attribute) {
+    public JSONInputObj(@JsonProperty("data") Object data, @JsonProperty("algorithms") Object algorithms, @JsonProperty("attribute") String attribute) {
         this.algorithms = algorithms;
         this.data = data;
         this.attribute = attribute;
@@ -32,4 +32,8 @@ public class JSONInputObj {
     public void setData(Object data) {
         this.data = data;
     }
+
+    public String getAttribute() { return attribute; }
+
+    public void setAttribute(String attribute) { this.attribute=attribute; }
 }
