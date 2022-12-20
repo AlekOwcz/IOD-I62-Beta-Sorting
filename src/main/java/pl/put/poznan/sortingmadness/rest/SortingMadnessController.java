@@ -75,7 +75,7 @@ public class SortingMadnessController {
                     strat = new BubbleSort();
                     break;
                 case "insertion":
-                    strat = new InsertionSort();
+                    strat = new InsertionSort(Comparator.naturalOrder());
                     break;
                 case "selection":
                     strat = new SelectionSort();
@@ -177,7 +177,7 @@ public class SortingMadnessController {
                     strat = new BubbleSort();
                     break;
                 case "insertion":
-                    strat = new InsertionSort();
+                    strat = new InsertionSort(Comparator.naturalOrder());
                     break;
                 case "selection":
                     strat = new SelectionSort();
