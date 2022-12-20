@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import org.json.*;
 import pl.put.poznan.sortingmadness.logic.*;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -65,52 +67,110 @@ public class SortingMadnessController {
         }
         logger.info("[INFO] Parsed Integer array: {}", (Object) numberData);
         logger.info("[INFO] Parsed String array: {}", (Object) stringData);
-
         int numberOfAlgorithms = ((JSONArray) jsonObj.get("algorithms")).length();
-        SortingStrategy strat = null;
-        for(Object alg : jsonObj.getJSONArray("algorithms")) {
-            System.out.println(alg.toString());
-            switch(alg.toString().toLowerCase()){
-                case "bubble":
-                    strat = new BubbleSort();
-                    break;
-                case "insertion":
-                    strat = new InsertionSort(Comparator.naturalOrder());
-                    break;
-                case "selection":
-                    strat = new SelectionSort(Comparator.naturalOrder());
-                    break;
-                case "quick":
-                    strat = new QuickSort(Comparator.naturalOrder());
-                    break;
-                case "merge":
-                    if (ints)
+        long[] times = new long[numberOfAlgorithms];
+        int measurement = 0;
+
+        if(ints) {
+            ArrayList<Integer> sortedData = null;
+            boolean sorted = false;
+            SortingStrategy<Integer> strat = null;
+            for(Object alg : jsonObj.getJSONArray("algorithms")) {
+                System.out.println(alg.toString());
+                switch(alg.toString().toLowerCase()){
+                    case "bubble":
+                        strat = new BubbleSort<Integer>(Comparator.naturalOrder());;
+                        break;
+                    case "insertion":
+                        strat = new InsertionSort<Integer>(Comparator.naturalOrder());
+                        break;
+                    case "selection":
+                        strat = new SelectionSort<Integer>(Comparator.naturalOrder());
+                        break;
+                    case "quick":
+                        strat = new QuickSort<Integer>(Comparator.naturalOrder());
+                        break;
+                    case "merge":
                         strat = new MergeSort<Integer>(Comparator.naturalOrder());
-                    else
-                        strat = new MergeSort<String>(Comparator.naturalOrder());
-                    break;
-                case "heap":
-                    strat = new HeapSort();
-                    break;
-            }
-            if (strat != null) {
-                if (ints) {
-                    ArrayList<Integer> result;
-                    result = strat.sort(numberData);
-                    for(Integer x: result) {
-                        System.out.println(x);
-                    }
+                        break;
+                    case "heap":
+                        strat = new HeapSort<Integer>(Comparator.naturalOrder());
+                        break;
                 }
-                else {
-                    ArrayList<String> result;
-                    result = strat.sort(stringData);
-                    for(String x: result) {
-                        System.out.println(x);
+
+                Instant start, end;
+
+                if(strat != null) {
+                    start = Instant.now();
+                    if(!sorted){
+                        sortedData = strat.sort(numberData);
+                        sorted = true;
+                    } else {
+                        strat.sort(numberData);
                     }
+                    end = Instant.now();
+                    times[measurement++] = Duration.between(start, end).toMillis();
+                } else {
+                    times[measurement++] = -1;
                 }
+                strat = null;
             }
+            JSONOutputObj sortedObj = new JSONOutputObj(json.getAlgorithms(),sortedData,json.getAttribute(),times);
+            JSONObject returnObject = new JSONObject(sortedObj);
+            return new ResponseEntity<>(returnObject.toString(), HttpStatus.OK);
         }
-        return new ResponseEntity<>(jsonObj.toString().toUpperCase(), HttpStatus.OK);
+        if(strings){
+            ArrayList<String> sortedData = null;
+            boolean sorted = false;
+            SortingStrategy<String> strat = null;
+            for(Object alg : jsonObj.getJSONArray("algorithms")) {
+                System.out.println(alg.toString());
+                switch(alg.toString().toLowerCase()){
+                    case "bubble":
+                        strat = new BubbleSort<String>(Comparator.naturalOrder());;
+                        break;
+                    case "insertion":
+                        strat = new InsertionSort<String>(Comparator.naturalOrder());
+                        break;
+                    case "selection":
+                        strat = new SelectionSort<String>(Comparator.naturalOrder());
+                        break;
+                    case "quick":
+                        strat = new QuickSort<String>(Comparator.naturalOrder());
+                        break;
+                    case "merge":
+                        strat = new MergeSort<String>(Comparator.naturalOrder());
+                        break;
+                    case "heap":
+                        strat = new HeapSort<String>(Comparator.naturalOrder());
+                        break;
+                }
+
+                Instant start, end;
+
+                if(strat != null) {
+                    start = Instant.now();
+                    if(!sorted){
+                        sortedData = strat.sort(stringData);
+                        logger.info("[INFO] Sorted data: {}", sortedData);
+                        sorted = true;
+                    } else {
+                        strat.sort(stringData);
+                    }
+                    end = Instant.now();
+                    long sortingTime = Duration.between(start, end).toMillis();
+                    logger.info("[INFO] Sorting time: {}", sortingTime);
+                    times[measurement++] = sortingTime;
+                } else {
+                    times[measurement++] = -1;
+                }
+                strat = null;
+            }
+            JSONOutputObj sortedObj = new JSONOutputObj(json.getAlgorithms(),sortedData,json.getAttribute(),times);
+            JSONObject returnObject = new JSONObject(sortedObj);
+            return new ResponseEntity<>(returnObject.toString(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>("ERROR: Unknown error", HttpStatus.NOT_FOUND);
     }
 
     @RequestMapping(value="/object/",method = RequestMethod.POST, produces = "application/json")
@@ -144,7 +204,7 @@ public class SortingMadnessController {
         ArrayList<Integer> numberData = new ArrayList<>();
         ArrayList<String> stringData = new ArrayList<>();
         boolean ints = false, strings = false;
-        Object el = null;
+        Object el = "NULL";
         for(int i = 0; i < data.length(); i++){
             try {
                 el = data.getJSONObject(i).get(attr);
@@ -165,37 +225,112 @@ public class SortingMadnessController {
                 return new ResponseEntity<>("[ERROR] At least one object does not posses attribute " + attr, HttpStatus.BAD_REQUEST);
             }
         }
-        logger.info("[INFO] Parsed Integer array: {}", (Object) numberData);
-        logger.info("[INFO] Parsed String array: {}", (Object) stringData);
-
+        logger.info("[INFO] Parsed Integer array: {}", numberData);
+        logger.info("[INFO] Parsed String array: {}", stringData);
         int numberOfAlgorithms = ((JSONArray) jsonObj.get("algorithms")).length();
-        SortingStrategy strat;
-        for(Object alg : jsonObj.getJSONArray("algorithms")) {
-            System.out.println(alg.toString());
-            switch(alg.toString().toLowerCase()){
-                case "bubble":
-                    strat = new BubbleSort();
-                    break;
-                case "insertion":
-                    strat = new InsertionSort(Comparator.naturalOrder());
-                    break;
-                case "selection":
-                    strat = new SelectionSort(Comparator.naturalOrder());
-                    break;
-                case "quick":
-                    strat = new QuickSort(Comparator.naturalOrder());
-                    break;
-                case "merge":
-                    strat = new MergeSort(Comparator.naturalOrder());
-                    break;
-                case "heap":
-                    strat = new HeapSort();
-                    break;
-            }
+        long[] times = new long[numberOfAlgorithms];
+        int measurement = 0;
 
+        if(ints) {
+            ArrayList<Integer> sortedData = null;
+            boolean sorted = false;
+            SortingStrategy<Integer> strat = null;
+            for(Object alg : jsonObj.getJSONArray("algorithms")) {
+                System.out.println(alg.toString());
+                switch(alg.toString().toLowerCase()){
+                    case "bubble":
+                        strat = new BubbleSort<Integer>(Comparator.naturalOrder());;
+                        break;
+                    case "insertion":
+                        strat = new InsertionSort<Integer>(Comparator.naturalOrder());
+                        break;
+                    case "selection":
+                        strat = new SelectionSort<Integer>(Comparator.naturalOrder());
+                        break;
+                    case "quick":
+                        strat = new QuickSort<Integer>(Comparator.naturalOrder());
+                        break;
+                    case "merge":
+                        strat = new MergeSort<Integer>(Comparator.naturalOrder());
+                        break;
+                    case "heap":
+                        strat = new HeapSort<Integer>(Comparator.naturalOrder());
+                        break;
+                }
+
+                Instant start, end;
+
+                if(strat != null) {
+                    start = Instant.now();
+                    if(!sorted){
+                        sortedData = strat.sort(numberData);
+                        sorted = true;
+                    } else {
+                        strat.sort(numberData);
+                    }
+                    end = Instant.now();
+                    times[measurement++] = Duration.between(start, end).toMillis();
+                } else {
+                    times[measurement++] = -1;
+                }
+                strat = null;
+            }
+            JSONOutputObj sortedObj = new JSONOutputObj(json.getAlgorithms(),sortedData,json.getAttribute(),times);
+            JSONObject returnObject = new JSONObject(sortedObj);
+            return new ResponseEntity<>(returnObject.toString(), HttpStatus.OK);
         }
-        //tmp for testing
-        return new ResponseEntity<>(jsonObj.toString().toUpperCase(), HttpStatus.OK);
+        if(strings){
+            ArrayList<String> sortedData = null;
+            boolean sorted = false;
+            SortingStrategy<String> strat = null;
+            for(Object alg : jsonObj.getJSONArray("algorithms")) {
+                System.out.println(alg.toString());
+                switch(alg.toString().toLowerCase()){
+                    case "bubble":
+                        strat = new BubbleSort<String>(Comparator.naturalOrder());;
+                        break;
+                    case "insertion":
+                        strat = new InsertionSort<String>(Comparator.naturalOrder());
+                        break;
+                    case "selection":
+                        strat = new SelectionSort<String>(Comparator.naturalOrder());
+                        break;
+                    case "quick":
+                        strat = new QuickSort<String>(Comparator.naturalOrder());
+                        break;
+                    case "merge":
+                        strat = new MergeSort<String>(Comparator.naturalOrder());
+                        break;
+                    case "heap":
+                        strat = new HeapSort<String>(Comparator.naturalOrder());
+                        break;
+                }
+
+                Instant start, end;
+
+                if(strat != null) {
+                    start = Instant.now();
+                    if(!sorted){
+                        sortedData = strat.sort(stringData);
+                        logger.info("[INFO] Sorted data: {}", sortedData);
+                        sorted = true;
+                    } else {
+                        strat.sort(stringData);
+                    }
+                    end = Instant.now();
+                    long sortingTime = Duration.between(start, end).toMillis();
+                    logger.info("[INFO] Sorting time: {}", sortingTime);
+                    times[measurement++] = sortingTime;
+                } else {
+                    times[measurement++] = -1;
+                }
+                strat = null;
+            }
+            JSONOutputObj sortedObj = new JSONOutputObj(json.getAlgorithms(),sortedData,json.getAttribute(),times);
+            JSONObject returnObject = new JSONObject(sortedObj);
+            return new ResponseEntity<>(returnObject.toString(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>("ERROR: Unknown error", HttpStatus.NOT_FOUND);
     }
 
 
