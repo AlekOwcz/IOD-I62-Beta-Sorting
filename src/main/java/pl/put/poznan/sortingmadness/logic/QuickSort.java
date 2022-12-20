@@ -31,10 +31,15 @@ public class QuickSort<T extends  Comparable<T>> implements SortingStrategy<T> {
                     position++;
                 }
             }
-            T tmp = data.get(pivot);
-            data.set(pivot, data.get(position));
-            data.set(position, tmp);
-            pivot = position;
+            while(position < r - 1 && position != pivot && comparator.compare(data.get(position), data.get(pivot)) == 0) {
+                position++;
+            }
+            if(comparator.compare(data.get(pivot), data.get(position)) < 0) {
+                T tmp = data.get(pivot);
+                data.set(pivot, data.get(position));
+                data.set(position, tmp);
+                pivot = position;
+            }
             quick(data, l, pivot);
             quick(data, pivot, r);
         }

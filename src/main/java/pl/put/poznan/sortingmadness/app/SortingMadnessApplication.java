@@ -12,18 +12,18 @@ import java.util.List;
 public class SortingMadnessApplication {
 
     public static void main(String[] args) {
-        QuickSort<Integer> s1 = new QuickSort<Integer>(Comparator.naturalOrder());
-        ArrayList<Integer> data = new ArrayList<>(List.of(4, 3, 1, 9, 2, 5, 7));
-        ArrayList<Integer> result = s1.sort(data);
-        for (Integer x: result) {
-            System.out.println(x);
-        }
-        System.out.println();
-        QuickSort<Integer> s2 = new QuickSort<Integer>(Comparator.reverseOrder());
-        result = s2.sort(data);
-        for (Integer x: result) {
-            System.out.println(x);
-        }
+//        QuickSort<Integer> s1 = new QuickSort<Integer>(Comparator.naturalOrder());
+//        ArrayList<Integer> data = new ArrayList<>(List.of(7,3,11,12,16,13,16,15,14,3,1,2, 2,7, 4,8,8,8,8,8,8, 7, 8, 1,4,7, 9, 6, 5, 10,7));
+//        ArrayList<Integer> result = s1.sort(data);
+//        for (Integer x: result) {
+//            System.out.println(x);
+//        }
+//        System.out.println();
+//        QuickSort<Integer> s2 = new QuickSort<Integer>(Comparator.reverseOrder());
+//        result = s2.sort(data);
+//        for (Integer x: result) {
+//            System.out.println(x);
+//        }
         SpringApplication.run(SortingMadnessApplication.class, args);
     }
 }
