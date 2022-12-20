@@ -5,8 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.json.*;
-import pl.put.poznan.sortingmadness.logic.SortingMadness;
+import pl.put.poznan.sortingmadness.logic.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -16,25 +17,165 @@ public class SortingMadnessController {
 
     private static final Logger logger = LoggerFactory.getLogger(SortingMadnessController.class);
 
-    @RequestMapping(value="/object/",method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value="/array/",method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<Object> post(@RequestBody JSONInputObj json) {
         JSONObject jsonObj = new JSONObject(json);
-        if (((JSONArray) jsonObj.get("algorithms")).length() == 0) {
-            logger.error("[ERROR] NO ALGORITHMS SELECTED");
-            return new ResponseEntity<>("[ERROR] YOU MUST PICK AT LEAST ONE ALGORITHM", HttpStatus.BAD_REQUEST);
+        try {
+            if (((JSONArray) jsonObj.get("algorithms")).length() == 0) {
+                logger.error("[ERROR] No algorithms selected");
+                return new ResponseEntity<>("[ERROR] You must pick at least one algorithm", HttpStatus.BAD_REQUEST);
+            }
+        } catch (JSONException e) {
+            logger.error("[ERROR] Algorithms field missing or not Array");
+            return new ResponseEntity<>("[ERROR] Missing algorithms field or field not of array type", HttpStatus.BAD_REQUEST);
         }
-        if (((JSONArray) jsonObj.get("data")).length() == 0) {
-            logger.error("[ERROR] DATA EMPTY");
-            return new ResponseEntity<>("[ERROR] DATA CAN NOT BE EMPTY", HttpStatus.BAD_REQUEST);
+        try {
+            if (((JSONArray) jsonObj.get("data")).length() == 0) {
+                logger.error("[ERROR] Data empty");
+                return new ResponseEntity<>("[ERROR] Data can not be empty", HttpStatus.BAD_REQUEST);
+            }
+        } catch (JSONException e) {
+            logger.error("[ERROR] Data field missing or not Array");
+            return new ResponseEntity<>("[ERROR] Missing data field or field not of array type", HttpStatus.BAD_REQUEST);
         }
-       // System.out.println(   ((JSONArray) jsonObj.get("data")).getJSONObject(0).get("aaa")   );
-        //todo check if attribute is in data
-        //todo logger
-        int numberOfAlgorithms = ((JSONArray) jsonObj.get("algorithms")).length();
 
-        //for(Object alg : (JSONArray) jsonObj.get("algorithms")) {
-         //
-        //}
+        JSONArray data = jsonObj.getJSONArray("data");
+
+        logger.info("[INFO] Algorithms: " + json.getAlgorithms().toString());
+        logger.info("[INFO] Json data: " + json.getData().toString());
+
+        ArrayList<Integer> numberData = new ArrayList<>();
+        ArrayList<String> stringData = new ArrayList<>();
+        boolean ints = false, strings = false;
+        for(int i = 0; i < data.length(); i++){
+            Object el = data.get(i);
+            if (el instanceof Integer){
+                if (!ints) ints = true;
+                numberData.add(Integer.parseInt(el.toString()));
+            }
+            if (el instanceof String){
+                if (!strings) strings = true;
+                stringData.add(el.toString());
+            }
+            if(ints && strings) {
+                logger.error("[ERROR] Array element type mismatch");
+                return new ResponseEntity<>("[ERROR] Attribute types must match", HttpStatus.BAD_REQUEST);
+            }
+        }
+        logger.info("[INFO] Parsed Integer array: {}", (Object) numberData);
+        logger.info("[INFO] Parsed String array: {}", (Object) stringData);
+
+        int numberOfAlgorithms = ((JSONArray) jsonObj.get("algorithms")).length();
+        SortingStrategy strat;
+        for(Object alg : jsonObj.getJSONArray("algorithms")) {
+            System.out.println(alg.toString());
+            switch(alg.toString().toLowerCase()){
+                case "bubble":
+                    strat = new BubbleSort();
+                    break;
+                case "insertion":
+                    strat = new InsertionSort();
+                    break;
+                case "selection":
+                    strat = new SelectionSort();
+                    break;
+                case "quick":
+                    strat = new QuickSort();
+                    break;
+                case "merge":
+                    strat = new MergeSort();
+                    break;
+                case "heap":
+                    strat = new HeapSort();
+                    break;
+            }
+
+        }
+        return new ResponseEntity<>(jsonObj.toString().toUpperCase(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/object/",method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<Object> postObj(@RequestBody JSONInputObj json) {
+        JSONObject jsonObj = new JSONObject(json);
+        try {
+            if (((JSONArray) jsonObj.get("algorithms")).length() == 0) {
+                logger.error("[ERROR] No algorithms selected");
+                return new ResponseEntity<>("[ERROR] You must pick at least one algorithm", HttpStatus.BAD_REQUEST);
+            }
+        } catch (JSONException e) {
+            logger.error("[ERROR] Algorithms field missing or not Array");
+            return new ResponseEntity<>("[ERROR] Missing algorithms field or field not of array type", HttpStatus.BAD_REQUEST);
+        }
+        try {
+            if (((JSONArray) jsonObj.get("data")).length() == 0) {
+                logger.error("[ERROR] Data empty");
+                return new ResponseEntity<>("[ERROR] Data can not be empty", HttpStatus.BAD_REQUEST);
+            }
+        } catch (JSONException e) {
+            logger.error("[ERROR] Data field missing or not Array");
+            return new ResponseEntity<>("[ERROR] Missing data field or field not of array type", HttpStatus.BAD_REQUEST);
+        }
+        String attr = jsonObj.get("attribute").toString();
+        JSONArray data = jsonObj.getJSONArray("data");
+
+        logger.info("[INFO] Algorithms: " + json.getAlgorithms().toString());
+        logger.info("[INFO] Json data: " + json.getData().toString());
+        logger.info("[INFO] Object attribute: " + json.getAttribute());
+
+        ArrayList<Integer> numberData = new ArrayList<>();
+        ArrayList<String> stringData = new ArrayList<>();
+        boolean ints = false, strings = false;
+        Object el = null;
+        for(int i = 0; i < data.length(); i++){
+            try {
+                el = data.getJSONObject(i).get(attr);
+                if (el instanceof Integer){
+                    if (!ints) ints = true;
+                    numberData.add(Integer.parseInt(el.toString()));
+                }
+                if (el instanceof String){
+                    if (!strings) strings = true;
+                    stringData.add(el.toString());
+                }
+                if(ints && strings) {
+                    logger.error("[ERROR] Attribute type mismatch");
+                    return new ResponseEntity<>("[ERROR] Attribute types must match", HttpStatus.BAD_REQUEST);
+                }
+            } catch (JSONException e) {
+                logger.error("[ERROR] Object {} lacks attribute {}", el.toString(), attr);
+                return new ResponseEntity<>("[ERROR] At least one object does not posses attribute " + attr, HttpStatus.BAD_REQUEST);
+            }
+        }
+        logger.info("[INFO] Parsed Integer array: {}", (Object) numberData);
+        logger.info("[INFO] Parsed String array: {}", (Object) stringData);
+
+        int numberOfAlgorithms = ((JSONArray) jsonObj.get("algorithms")).length();
+        SortingStrategy strat;
+        for(Object alg : jsonObj.getJSONArray("algorithms")) {
+            System.out.println(alg.toString());
+            switch(alg.toString().toLowerCase()){
+                case "bubble":
+                    strat = new BubbleSort();
+                    break;
+                case "insertion":
+                    strat = new InsertionSort();
+                    break;
+                case "selection":
+                    strat = new SelectionSort();
+                    break;
+                case "quick":
+                    strat = new QuickSort();
+                    break;
+                case "merge":
+                    strat = new MergeSort();
+                    break;
+                case "heap":
+                    strat = new HeapSort();
+                    break;
+            }
+
+        }
+        //tmp for testing
         return new ResponseEntity<>(jsonObj.toString().toUpperCase(), HttpStatus.OK);
     }
 
