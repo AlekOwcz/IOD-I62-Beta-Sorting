@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.w3c.dom.ls.LSInput;
 import pl.put.poznan.sortingmadness.logic.InsertionSort;
 import pl.put.poznan.sortingmadness.logic.MergeSort;
+import pl.put.poznan.sortingmadness.logic.SelectionSort;
 import pl.put.poznan.sortingmadness.logic.SortingMadness;
 
 import java.util.ArrayList;
@@ -18,14 +19,14 @@ import java.util.Scanner;
 public class SortingMadnessApplication {
 
     public static void main(String[] args) {
-//        InsertionSort<Integer> s1 = new InsertionSort<Integer>(Comparator.naturalOrder());
+//        SelectionSort<Integer> s1 = new SelectionSort<Integer>(Comparator.naturalOrder());
 //        ArrayList<Integer> data = new ArrayList<>(List.of(4, 3, 1, 9, 2, 5, 7));
 //        ArrayList<Integer> result = s1.sort(data);
 //        for (Integer x: result) {
 //            System.out.println(x);
 //        }
 //        System.out.println();
-//        InsertionSort<Integer> s2 = new InsertionSort<Integer>(Comparator.reverseOrder());
+//        SelectionSort<Integer> s2 = new SelectionSort<Integer>(Comparator.reverseOrder());
 //        result = s2.sort(data);
 //        for (Integer x: result) {
 //            System.out.println(x);

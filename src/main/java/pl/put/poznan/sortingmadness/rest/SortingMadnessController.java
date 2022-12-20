@@ -78,7 +78,7 @@ public class SortingMadnessController {
                     strat = new InsertionSort(Comparator.naturalOrder());
                     break;
                 case "selection":
-                    strat = new SelectionSort();
+                    strat = new SelectionSort(Comparator.naturalOrder());
                     break;
                 case "quick":
                     strat = new QuickSort();
@@ -180,7 +180,7 @@ public class SortingMadnessController {
                     strat = new InsertionSort(Comparator.naturalOrder());
                     break;
                 case "selection":
-                    strat = new SelectionSort();
+                    strat = new SelectionSort(Comparator.naturalOrder());
                     break;
                 case "quick":
                     strat = new QuickSort();
