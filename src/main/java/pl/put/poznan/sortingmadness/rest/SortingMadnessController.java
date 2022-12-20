@@ -81,7 +81,7 @@ public class SortingMadnessController {
                     strat = new SelectionSort(Comparator.naturalOrder());
                     break;
                 case "quick":
-                    strat = new QuickSort();
+                    strat = new QuickSort(Comparator.naturalOrder());
                     break;
                 case "merge":
                     if (ints)
@@ -183,7 +183,7 @@ public class SortingMadnessController {
                     strat = new SelectionSort(Comparator.naturalOrder());
                     break;
                 case "quick":
-                    strat = new QuickSort();
+                    strat = new QuickSort(Comparator.naturalOrder());
                     break;
                 case "merge":
                     strat = new MergeSort(Comparator.naturalOrder());
