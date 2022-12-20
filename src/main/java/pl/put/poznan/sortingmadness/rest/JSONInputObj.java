@@ -11,7 +11,9 @@ public class JSONInputObj {
 
     @JsonProperty("attribute")
     private String attribute;
-    public JSONInputObj(@JsonProperty("data") Object data, @JsonProperty("algorithms") Object algorithms, @JsonProperty("attribute") String attribute) {
+    public JSONInputObj(@JsonProperty("data") Object data,
+                        @JsonProperty("algorithms") Object algorithms,
+                        @JsonProperty("attribute") String attribute) {
         this.algorithms = algorithms;
         this.data = data;
         this.attribute = attribute;
