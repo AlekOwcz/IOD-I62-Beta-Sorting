@@ -76,7 +76,6 @@ public class SortingMadnessController {
             boolean sorted = false;
             SortingStrategy<Integer> strat = null;
             for(Object alg : jsonObj.getJSONArray("algorithms")) {
-                System.out.println(alg.toString());
                 switch(alg.toString().toLowerCase()){
                     case "bubble":
                         strat = new BubbleSort<Integer>(Comparator.naturalOrder());;
