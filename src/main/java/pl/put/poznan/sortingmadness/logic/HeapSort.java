@@ -1,4 +1,10 @@
 package pl.put.poznan.sortingmadness.logic;
 
-public class HeapSort implements SortingStrategy {
+import java.util.ArrayList;
+
+public class HeapSort<T extends  Comparable<T>> implements SortingStrategy<T>  {
+    @Override
+    public ArrayList<T> sort(ArrayList<T> data) {
+        return null;
+    }
 }

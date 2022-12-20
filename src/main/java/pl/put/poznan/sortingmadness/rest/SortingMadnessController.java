@@ -9,6 +9,7 @@ import pl.put.poznan.sortingmadness.logic.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 
 
 @RestController
@@ -66,7 +67,7 @@ public class SortingMadnessController {
         logger.info("[INFO] Parsed String array: {}", (Object) stringData);
 
         int numberOfAlgorithms = ((JSONArray) jsonObj.get("algorithms")).length();
-        SortingStrategy strat;
+        SortingStrategy strat = null;
         for(Object alg : jsonObj.getJSONArray("algorithms")) {
             System.out.println(alg.toString());
             switch(alg.toString().toLowerCase()){
@@ -83,13 +84,31 @@ public class SortingMadnessController {
                     strat = new QuickSort();
                     break;
                 case "merge":
-                    strat = new MergeSort();
+                    if (ints)
+                        strat = new MergeSort<Integer>(Comparator.naturalOrder());
+                    else
+                        strat = new MergeSort<String>(Comparator.naturalOrder());
                     break;
                 case "heap":
                     strat = new HeapSort();
                     break;
             }
-
+            if (strat != null) {
+                if (ints) {
+                    ArrayList<Integer> result;
+                    result = strat.sort(numberData);
+                    for(Integer x: result) {
+                        System.out.println(x);
+                    }
+                }
+                else {
+                    ArrayList<String> result;
+                    result = strat.sort(stringData);
+                    for(String x: result) {
+                        System.out.println(x);
+                    }
+                }
+            }
         }
         return new ResponseEntity<>(jsonObj.toString().toUpperCase(), HttpStatus.OK);
     }
@@ -167,7 +186,7 @@ public class SortingMadnessController {
                     strat = new QuickSort();
                     break;
                 case "merge":
-                    strat = new MergeSort();
+                    strat = new MergeSort(Comparator.naturalOrder());
                     break;
                 case "heap":
                     strat = new HeapSort();

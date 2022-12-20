@@ -1,40 +1,42 @@
 package pl.put.poznan.sortingmadness.logic;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Comparator;
 
-public class MergeSort implements SortingStrategy {
+public class MergeSort<T extends  Comparable<T>> implements SortingStrategy<T> {
 
-    static public void sortInt() {
-        int[] data = {4, 3, 1, 9, 2, 5, 7};
-        int[] result = mergeSort(data);
-        for (int i = 0; i < result.length; i++) {
-            System.out.println(result[i]);
-        }
+    Comparator<T> comparator;
+
+    public MergeSort(Comparator<T> comparator){
+        this.comparator = comparator;
     }
 
-    static int[] mergeSort(int[] data){
-        if (data.length > 1) {
-            int[] left = mergeSort(Arrays.copyOfRange(data, 0, data.length / 2));
-            int[] right = mergeSort(Arrays.copyOfRange(data, data.length / 2, data.length));
-            int[] result = new int[data.length];
+    @Override
+    public ArrayList<T> sort(ArrayList<T> data) {
+        return mergeSort(data);
+    }
+
+    private ArrayList<T> mergeSort(ArrayList<T> data){
+        if (data.size() > 1) {
+            ArrayList<T> left = mergeSort(new ArrayList<>(data.subList(0, data.size() / 2)));
+            ArrayList<T> right = mergeSort(new ArrayList<>(data.subList(data.size() / 2, data.size())));
+            ArrayList<T> result = new ArrayList<>(data.size());
             int i = 0;
             int j = 0;
-            int index = 0;
-            while (i < left.length || j < right.length) {
-                if ( i >= left.length) {
-                    result[index] = right[j];
+            while (i < left.size() || j < right.size()) {
+                if ( i >= left.size()) {
+                    result.add(right.get(j));
                     j++;
-                } else if (j >= right.length) {
-                    result[index] = left[i];
+                } else if (j >= right.size()) {
+                    result.add(left.get(i));
                     i++;
-                } else if (left[i] < right[j]) {
-                    result[index] = left[i];
+                } else if (comparator.compare(left.get(i), right.get(j)) < 0) {
+                    result.add(left.get(i));
                     i++;
                 } else {
-                    result[index] = right[j];
+                    result.add(right.get(j));
                     j++;
                 }
-                index++;
             }
             return result;
         } else
