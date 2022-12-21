@@ -1,16 +1,18 @@
 package pl.put.poznan.sortingmadness.logic;
 
 import org.json.JSONObject;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Comparator;
 
 public class HeapSort<T extends  Comparable<T>> implements SortingStrategy<T> {
 
     Comparator<T> comparator;
-
-    public HeapSort(Comparator<T> comparator){
+    private Logger logger;
+    public HeapSort(Comparator<T> comparator) {
         this.comparator = comparator;
+        logger = LoggerFactory.getLogger(InsertionSort.class);
     }
 
     @Override
@@ -21,6 +23,7 @@ public class HeapSort<T extends  Comparable<T>> implements SortingStrategy<T> {
 
     private ArrayList<T> heap(ArrayList<T> data)
     {
+        logger.info("[INFO] Start of sorting");
         int n = data.size();
         for (int i = n / 2 - 1; i >= 0; i--)
             heapify(data, n, i);
@@ -31,12 +34,15 @@ public class HeapSort<T extends  Comparable<T>> implements SortingStrategy<T> {
             data.set(0, data.get(i));
             data.set(i, tmp);
             heapify(data, i, 0);
+            logger.debug("[DEBUG] List state {}", data);
         }
+        logger.info("[INFO] End of sorting");
         return data;
     }
 
     void heapify(ArrayList<T> data, int n, int i)
     {
+
         int largest = i;
         int l = 2*i + 1;
         int r = 2*i + 2;
@@ -57,6 +63,7 @@ public class HeapSort<T extends  Comparable<T>> implements SortingStrategy<T> {
 
     @Override
     public ArrayList<JSONObject> sort(ArrayList<JSONObject> data, String attribute) {
+        logger.info("[INFO] Start of sorting");
         int n = data.size();
         for (int i = n / 2 - 1; i >= 0; i--)
             heapify(data, n, i, attribute);
@@ -67,7 +74,9 @@ public class HeapSort<T extends  Comparable<T>> implements SortingStrategy<T> {
             data.set(0, data.get(i));
             data.set(i, tmp);
             heapify(data, i, 0, attribute);
+            logger.debug("[DEBUG] List state {}", data);
         }
+        logger.info("[INFO] End of sorting");
         return data;
     }
 
