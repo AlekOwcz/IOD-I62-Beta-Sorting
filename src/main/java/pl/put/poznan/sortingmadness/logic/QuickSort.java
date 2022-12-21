@@ -1,18 +1,24 @@
 package pl.put.poznan.sortingmadness.logic;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 
 public class QuickSort<T extends  Comparable<T>> implements SortingStrategy<T> {
 
     Comparator<T> comparator;
-
+    private Logger logger;
     public QuickSort(Comparator<T> comparator) {
         this.comparator = comparator;
+        logger = LoggerFactory.getLogger(QuickSort.class);
     }
     @Override
     public ArrayList<T> sort(ArrayList<T> data) {
+        logger.info("[INFO] Start of sorting");
         quick(data, 0, data.size());
+        logger.info("[INFO] End of sorting");
         return  data;
     }
 
@@ -40,6 +46,7 @@ public class QuickSort<T extends  Comparable<T>> implements SortingStrategy<T> {
                 data.set(position, tmp);
                 pivot = position;
             }
+            logger.debug("[DEBUG] List state {}", data);
             quick(data, l, pivot);
             quick(data, pivot, r);
         }

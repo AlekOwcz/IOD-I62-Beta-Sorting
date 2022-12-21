@@ -1,18 +1,23 @@
 package pl.put.poznan.sortingmadness.logic;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 
 public class MergeSort<T extends  Comparable<T>> implements SortingStrategy<T> {
 
     Comparator<T> comparator;
-
+    private Logger logger;
     public MergeSort(Comparator<T> comparator){
         this.comparator = comparator;
+        logger = LoggerFactory.getLogger(MergeSort.class);
     }
 
     @Override
     public ArrayList<T> sort(ArrayList<T> data) {
+        logger.info("[INFO] Start of sorting");
         return mergeSort(data);
     }
 
@@ -38,9 +43,10 @@ public class MergeSort<T extends  Comparable<T>> implements SortingStrategy<T> {
                     j++;
                 }
             }
+            logger.debug("[DEBUG] List state {}", data);
             return result;
-        } else
-        {
+        } else {
+            logger.debug("[DEBUG] List state {}", data);
             return  data;
         }
     }
