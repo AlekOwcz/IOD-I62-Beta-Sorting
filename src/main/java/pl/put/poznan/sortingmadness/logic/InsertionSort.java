@@ -1,5 +1,6 @@
 package pl.put.poznan.sortingmadness.logic;
 
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +22,23 @@ public class InsertionSort<T extends  Comparable<T>> implements SortingStrategy<
             int j = i - 1 ;
             T elem = data.get(i);
             while (j >= 0 && comparator.compare(elem, data.get(j)) < 0 ) {
+                data.set(j + 1, data.get(j));
+                j--;
+            }
+            data.set(j + 1, elem);
+            logger.debug("[DEBUG] List state {}", data);
+        }
+        logger.info("[INFO] End of sorting");
+        return data;
+    }
+
+    @Override
+    public ArrayList<JSONObject> sort(ArrayList<JSONObject> data, String attribute) {
+        logger.info("[INFO] Start of sorting");
+        for(int i = 1; i < data.size(); i++) {
+            int j = i - 1 ;
+            JSONObject elem = data.get(i);
+            while (j >= 0 && comparator.compare((T) elem.get(attribute), (T) data.get(j).get(attribute)) < 0 ) {
                 data.set(j + 1, data.get(j));
                 j--;
             }
