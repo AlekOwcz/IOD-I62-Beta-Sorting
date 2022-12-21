@@ -11,6 +11,11 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+/**
+ * SortingContext class takes care of creating instances of SortingStrategy, calling them, measuring time and storing resulting Lists
+ * For one dimensional arrays use data and sortedData fields and set them using
+ *
+ */
 public class SortingContext<T extends  Comparable<T>> {
 
     private static final Logger logger = LoggerFactory.getLogger(SortingMadnessController.class);
@@ -21,6 +26,7 @@ public class SortingContext<T extends  Comparable<T>> {
     private ArrayList<T> sortedData = null;
     private ArrayList<JSONObject> sortedObjectData = null;
     private String attribute = null;
+    private String order = "natural";
 
     public void setData(ArrayList<T> data) {
         this.data = data;
@@ -34,31 +40,43 @@ public class SortingContext<T extends  Comparable<T>> {
     public void setAttribute(String attribute){
         this.attribute = attribute;
     }
+    public void setOrder(String order){
+        this.order = order;
+    }
     public ArrayList<T> getSortedData() { return sortedData; }
     public ArrayList<JSONObject> getSortedJsonData() { return sortedObjectData; }
     public ArrayList<Long> getTimes() { return times; }
 
+
     public void sort() {
+        logger.info("[INFO] Start sorting method");
         boolean sorted = false;
         SortingStrategy<T> strat = null;
+        logger.info("[INFO] Creating objects");
         for(Object alg : algorithms) {
             switch(alg.toString().toLowerCase()){
                 case "bubble":
+                    logger.debug("[DEBUG] {} matched to bubble", alg.toString().toLowerCase());
                     strat = new BubbleSort<T>(Comparator.naturalOrder());
                     break;
                 case "insertion":
+                    logger.debug("[DEBUG] {} matched to insertion", alg.toString().toLowerCase());
                     strat = new InsertionSort<T>(Comparator.naturalOrder());
                     break;
                 case "selection":
+                    logger.debug("[DEBUG] {} matched to selection", alg.toString().toLowerCase());
                     strat = new SelectionSort<T>(Comparator.naturalOrder());
                     break;
                 case "quick":
+                    logger.debug("[DEBUG] {} matched to quick", alg.toString().toLowerCase());
                     strat = new QuickSort<T>(Comparator.naturalOrder());
                     break;
                 case "merge":
+                    logger.debug("[DEBUG] {} matched to merge", alg.toString().toLowerCase());
                     strat = new MergeSort<T>(Comparator.naturalOrder());
                     break;
                 case "heap":
+                    logger.debug("[DEBUG] {} matched to heap", alg.toString().toLowerCase());
                     strat = new HeapSort<T>(Comparator.naturalOrder());
                     break;
             }
@@ -66,6 +84,8 @@ public class SortingContext<T extends  Comparable<T>> {
             Instant start, end;
 
             if(strat != null) {
+                logger.info("[INFO] Running sorting algorithm");
+                logger.info("[INFO] Starting timer");
                 start = Instant.now();
                 if(!sorted){
                     if(attribute != null) sortedObjectData = strat.sort(jsonData, attribute);
@@ -75,9 +95,12 @@ public class SortingContext<T extends  Comparable<T>> {
                     if(attribute != null) strat.sort(jsonData, attribute);
                     if(attribute == null) strat.sort(data);
                 }
+                logger.info("[INFO] Stopping timer");
                 end = Instant.now();
+                logger.info("[INFO] Measured time [ms]: {}", Duration.between(start, end).toMillis());
                 times.add(Duration.between(start, end).toMillis());
             } else {
+                logger.info("[INFO] Unknown algorithm - setting time to -1");
                 times.add((long) -1);
             }
             strat = null;

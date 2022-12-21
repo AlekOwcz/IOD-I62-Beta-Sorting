@@ -7,10 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.json.*;
 import pl.put.poznan.sortingmadness.logic.*;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 
 @RestController
@@ -22,6 +19,7 @@ public class SortingMadnessController {
     @RequestMapping(value="/array/",method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<Object> post(@RequestBody JSONInputObj json) {
         JSONObject jsonObj = new JSONObject(json);
+        String order = "natural";
         try {
             if (((JSONArray) jsonObj.get("algorithms")).length() == 0) {
                 logger.error("[ERROR] No algorithms selected");
@@ -41,19 +39,23 @@ public class SortingMadnessController {
             return new ResponseEntity<>("[ERROR] Missing data field or field not of array type", HttpStatus.BAD_REQUEST);
         }
 
+        try {
+            order = jsonObj.get("order").toString();
+        } catch (JSONException ignored) {}
+
         JSONArray data = jsonObj.getJSONArray("data");
 
         logger.debug("[DEBUG] Algorithms: " + json.getAlgorithms().toString());
         logger.debug("[DEBUG] Json data: " + json.getData().toString());
 
-        ArrayList<Integer> numberData = new ArrayList<>();
+        ArrayList<Double> numberData = new ArrayList<>();
         ArrayList<String> stringData = new ArrayList<>();
         boolean ints = false, strings = false;
         for(int i = 0; i < data.length(); i++){
             Object el = data.get(i);
-            if (el instanceof Integer){
+            if (el instanceof Integer || el instanceof Float || el instanceof Double){
                 if (!ints) ints = true;
-                numberData.add(Integer.parseInt(el.toString()));
+                numberData.add(Double.parseDouble(el.toString()));
             }
             if (el instanceof String){
                 if (!strings) strings = true;
@@ -64,12 +66,13 @@ public class SortingMadnessController {
                 return new ResponseEntity<>("[ERROR] Attribute types must match", HttpStatus.BAD_REQUEST);
             }
         }
-        logger.debug("[DEBUG] Parsed Integer array: {}", numberData);
+        logger.debug("[DEBUG] Parsed Number array: {}", numberData);
         logger.debug("[DEBUG] Parsed String array: {}", stringData);
         if(ints) {
-            SortingContext<Integer> sortContext = new SortingContext<Integer>();
+            SortingContext<Double> sortContext = new SortingContext<>();
             sortContext.setData(numberData);
             sortContext.setAlgorithms(jsonObj.getJSONArray("algorithms"));
+            sortContext.setOrder(order);
             sortContext.sort();
             JSONOutputObj sortedObj = new JSONOutputObj(json.getAlgorithms(),
                     sortContext.getSortedData(),
@@ -82,6 +85,7 @@ public class SortingMadnessController {
             SortingContext<String> sortContext = new SortingContext<>();
             sortContext.setData(stringData);
             sortContext.setAlgorithms(jsonObj.getJSONArray("algorithms"));
+            sortContext.setOrder(order);
             sortContext.sort();
             JSONOutputObj sortedObj = new JSONOutputObj(json.getAlgorithms(),
                     sortContext.getSortedData(),
@@ -96,6 +100,7 @@ public class SortingMadnessController {
     @RequestMapping(value="/object/",method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<Object> postObj(@RequestBody JSONInputObj json) {
         JSONObject jsonObj = new JSONObject(json);
+        String order = "natural";
         try {
             if (((JSONArray) jsonObj.get("algorithms")).length() == 0) {
                 logger.error("[ERROR] No algorithms selected");
@@ -114,6 +119,11 @@ public class SortingMadnessController {
             logger.error("[ERROR] Data field missing or not Array");
             return new ResponseEntity<>("[ERROR] Missing data field or field not of array type", HttpStatus.BAD_REQUEST);
         }
+
+        try {
+            order = jsonObj.get("order").toString();
+        } catch (JSONException ignored) {}
+
         String attr = jsonObj.get("attribute").toString();
         JSONArray data = jsonObj.getJSONArray("data");
 
@@ -128,7 +138,7 @@ public class SortingMadnessController {
             try {
                 objectData.add(data.getJSONObject(i));
                 el = (objectData.get(i)).get(attr);
-                if (el instanceof Integer){
+                if (el instanceof Integer || el instanceof Float || el instanceof Double){
                     if (!ints) ints = true;
                 }
                 if (el instanceof String){
@@ -145,10 +155,11 @@ public class SortingMadnessController {
         }
         logger.debug("[DEBUG] Object array: {}", objectData);
         if(ints) {
-            SortingContext<Integer> sortContext = new SortingContext<Integer>();
+            SortingContext<Double> sortContext = new SortingContext<>();
             sortContext.setJsonData(objectData);
             sortContext.setAlgorithms(jsonObj.getJSONArray("algorithms"));
             sortContext.setAttribute(attr);
+            sortContext.setOrder(order);
             sortContext.sort();
             JSONOutputObj sortedObj = new JSONOutputObj(json.getAlgorithms(),
                                                         sortContext.getSortedJsonData(),
@@ -162,6 +173,7 @@ public class SortingMadnessController {
             sortContext.setJsonData(objectData);
             sortContext.setAlgorithms(jsonObj.getJSONArray("algorithms"));
             sortContext.setAttribute(attr);
+            sortContext.setOrder(order);
             sortContext.sort();
             JSONOutputObj sortedObj = new JSONOutputObj(json.getAlgorithms(),
                     sortContext.getSortedJsonData(),
