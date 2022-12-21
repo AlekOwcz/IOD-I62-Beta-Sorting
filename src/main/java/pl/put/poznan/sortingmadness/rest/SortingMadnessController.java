@@ -10,7 +10,6 @@ import pl.put.poznan.sortingmadness.logic.*;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 
 
@@ -44,8 +43,8 @@ public class SortingMadnessController {
 
         JSONArray data = jsonObj.getJSONArray("data");
 
-        logger.info("[INFO] Algorithms: " + json.getAlgorithms().toString());
-        logger.info("[INFO] Json data: " + json.getData().toString());
+        logger.debug("[DEBUG] Algorithms: " + json.getAlgorithms().toString());
+        logger.debug("[DEBUG] Json data: " + json.getData().toString());
 
         ArrayList<Integer> numberData = new ArrayList<>();
         ArrayList<String> stringData = new ArrayList<>();
@@ -65,8 +64,8 @@ public class SortingMadnessController {
                 return new ResponseEntity<>("[ERROR] Attribute types must match", HttpStatus.BAD_REQUEST);
             }
         }
-        logger.info("[INFO] Parsed Integer array: {}", (Object) numberData);
-        logger.info("[INFO] Parsed String array: {}", (Object) stringData);
+        logger.debug("[DEBUG] Parsed Integer array: {}", numberData);
+        logger.debug("[DEBUG] Parsed String array: {}", stringData);
         int numberOfAlgorithms = ((JSONArray) jsonObj.get("algorithms")).length();
         long[] times = new long[numberOfAlgorithms];
         int measurement = 0;
@@ -78,7 +77,7 @@ public class SortingMadnessController {
             for(Object alg : jsonObj.getJSONArray("algorithms")) {
                 switch(alg.toString().toLowerCase()){
                     case "bubble":
-                        strat = new BubbleSort<Integer>(Comparator.naturalOrder());;
+                        strat = new BubbleSort<Integer>(Comparator.naturalOrder());
                         break;
                     case "insertion":
                         strat = new InsertionSort<Integer>(Comparator.naturalOrder());
@@ -125,7 +124,7 @@ public class SortingMadnessController {
             for(Object alg : jsonObj.getJSONArray("algorithms")) {
                 switch(alg.toString().toLowerCase()){
                     case "bubble":
-                        strat = new BubbleSort<String>(Comparator.naturalOrder());;
+                        strat = new BubbleSort<String>(Comparator.naturalOrder());
                         break;
                     case "insertion":
                         strat = new InsertionSort<String>(Comparator.naturalOrder());
@@ -195,9 +194,9 @@ public class SortingMadnessController {
         String attr = jsonObj.get("attribute").toString();
         JSONArray data = jsonObj.getJSONArray("data");
 
-        logger.info("[INFO] Algorithms: " + json.getAlgorithms().toString());
-        logger.info("[INFO] Json data: " + json.getData().toString());
-        logger.info("[INFO] Object attribute: " + json.getAttribute());
+        logger.debug("[DEBUG] Algorithms: " + json.getAlgorithms().toString());
+        logger.debug("[DEBUG] Json data: " + json.getData().toString());
+        logger.debug("[DEBUG] Object attribute: " + json.getAttribute());
 
         ArrayList<Integer> numberData = new ArrayList<>();
         ArrayList<String> stringData = new ArrayList<>();
@@ -223,20 +222,20 @@ public class SortingMadnessController {
                 return new ResponseEntity<>("[ERROR] At least one object does not posses attribute " + attr, HttpStatus.BAD_REQUEST);
             }
         }
-        logger.info("[INFO] Parsed Integer array: {}", numberData);
-        logger.info("[INFO] Parsed String array: {}", stringData);
-        int numberOfAlgorithms = ((JSONArray) jsonObj.get("algorithms")).length();
-        long[] times = new long[numberOfAlgorithms];
-        int measurement = 0;
-
+        logger.debug("[DEBUG] Parsed Integer array: {}", numberData);
+        logger.debug("[DEBUG] Parsed String array: {}", stringData);
         if(ints) {
-            ArrayList<Integer> sortedData = null;
+            SortingContext<Integer> sortContext = new SortingContext<Integer>();
+            sortContext.setData(numberData);
+            sortContext.setAlgorithms(jsonObj.getJSONArray("algorithms"));
+            sortContext.sort();
+            /*ArrayList<Integer> sortedData = null;
             boolean sorted = false;
             SortingStrategy<Integer> strat = null;
             for(Object alg : jsonObj.getJSONArray("algorithms")) {
                 switch(alg.toString().toLowerCase()){
                     case "bubble":
-                        strat = new BubbleSort<Integer>(Comparator.naturalOrder());;
+                        strat = new BubbleSort<Integer>(Comparator.naturalOrder());
                         break;
                     case "insertion":
                         strat = new InsertionSort<Integer>(Comparator.naturalOrder());
@@ -271,19 +270,22 @@ public class SortingMadnessController {
                     times[measurement++] = -1;
                 }
                 strat = null;
-            }
-            JSONOutputObj sortedObj = new JSONOutputObj(json.getAlgorithms(),sortedData,json.getAttribute(),times);
+            }*/
+            JSONOutputObj sortedObj = new JSONOutputObj(json.getAlgorithms(),
+                                                        sortContext.getSortedData(),
+                                                        json.getAttribute(),
+                                                        sortContext.getTimes());
             JSONObject returnObject = new JSONObject(sortedObj);
             return new ResponseEntity<>(returnObject.toString(), HttpStatus.OK);
         }
         if(strings){
-            ArrayList<String> sortedData = null;
+            /*ArrayList<String> sortedData = null;
             boolean sorted = false;
             SortingStrategy<String> strat = null;
             for(Object alg : jsonObj.getJSONArray("algorithms")) {
                 switch(alg.toString().toLowerCase()){
                     case "bubble":
-                        strat = new BubbleSort<String>(Comparator.naturalOrder());;
+                        strat = new BubbleSort<String>(Comparator.naturalOrder());
                         break;
                     case "insertion":
                         strat = new InsertionSort<String>(Comparator.naturalOrder());
@@ -321,8 +323,57 @@ public class SortingMadnessController {
                     times[measurement++] = -1;
                 }
                 strat = null;
-            }
-            JSONOutputObj sortedObj = new JSONOutputObj(json.getAlgorithms(),sortedData,json.getAttribute(),times);
+            }*/
+            SortingContext<Integer> sortContext = new SortingContext<Integer>();
+            sortContext.setData(numberData);
+            sortContext.setAlgorithms(jsonObj.getJSONArray("algorithms"));
+            sortContext.sort();
+            /*ArrayList<Integer> sortedData = null;
+            boolean sorted = false;
+            SortingStrategy<Integer> strat = null;
+            for(Object alg : jsonObj.getJSONArray("algorithms")) {
+                switch(alg.toString().toLowerCase()){
+                    case "bubble":
+                        strat = new BubbleSort<Integer>(Comparator.naturalOrder());
+                        break;
+                    case "insertion":
+                        strat = new InsertionSort<Integer>(Comparator.naturalOrder());
+                        break;
+                    case "selection":
+                        strat = new SelectionSort<Integer>(Comparator.naturalOrder());
+                        break;
+                    case "quick":
+                        strat = new QuickSort<Integer>(Comparator.naturalOrder());
+                        break;
+                    case "merge":
+                        strat = new MergeSort<Integer>(Comparator.naturalOrder());
+                        break;
+                    case "heap":
+                        strat = new HeapSort<Integer>(Comparator.naturalOrder());
+                        break;
+                }
+
+                Instant start, end;
+
+                if(strat != null) {
+                    start = Instant.now();
+                    if(!sorted){
+                        sortedData = strat.sort(numberData);
+                        sorted = true;
+                    } else {
+                        strat.sort(numberData);
+                    }
+                    end = Instant.now();
+                    times[measurement++] = Duration.between(start, end).toMillis();
+                } else {
+                    times[measurement++] = -1;
+                }
+                strat = null;
+            }*/
+            JSONOutputObj sortedObj = new JSONOutputObj(json.getAlgorithms(),
+                    sortContext.getSortedData(),
+                    json.getAttribute(),
+                    sortContext.getTimes());
             JSONObject returnObject = new JSONObject(sortedObj);
             return new ResponseEntity<>(returnObject.toString(), HttpStatus.OK);
         }

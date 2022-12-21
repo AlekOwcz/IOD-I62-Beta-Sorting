@@ -1,12 +1,13 @@
+/home/xelo/Desktop/ioproj/IOD-I62-Beta-Sorting/src/main/java/pl/put/poznan/sortingmadness/logic/SortingContext.java
+/home/xelo/Desktop/ioproj/IOD-I62-Beta-Sorting/src/main/java/pl/put/poznan/sortingmadness/logic/SortingMadness.java
+/home/xelo/Desktop/ioproj/IOD-I62-Beta-Sorting/src/main/java/pl/put/poznan/sortingmadness/logic/MergeSort.java
+/home/xelo/Desktop/ioproj/IOD-I62-Beta-Sorting/src/main/java/pl/put/poznan/sortingmadness/rest/SortingMadnessController.java
 /home/xelo/Desktop/ioproj/IOD-I62-Beta-Sorting/src/main/java/pl/put/poznan/sortingmadness/logic/SortingStrategy.java
+/home/xelo/Desktop/ioproj/IOD-I62-Beta-Sorting/src/main/java/pl/put/poznan/sortingmadness/rest/JSONOutputObj.java
 /home/xelo/Desktop/ioproj/IOD-I62-Beta-Sorting/src/main/java/pl/put/poznan/sortingmadness/logic/HeapSort.java
 /home/xelo/Desktop/ioproj/IOD-I62-Beta-Sorting/src/main/java/pl/put/poznan/sortingmadness/logic/InsertionSort.java
 /home/xelo/Desktop/ioproj/IOD-I62-Beta-Sorting/src/main/java/pl/put/poznan/sortingmadness/logic/QuickSort.java
-/home/xelo/Desktop/ioproj/IOD-I62-Beta-Sorting/src/main/java/pl/put/poznan/sortingmadness/rest/JSONInput.java
-/home/xelo/Desktop/ioproj/IOD-I62-Beta-Sorting/src/main/java/pl/put/poznan/sortingmadness/logic/SortingMadness.java
 /home/xelo/Desktop/ioproj/IOD-I62-Beta-Sorting/src/main/java/pl/put/poznan/sortingmadness/logic/SelectionSort.java
-/home/xelo/Desktop/ioproj/IOD-I62-Beta-Sorting/src/main/java/pl/put/poznan/sortingmadness/logic/MergeSort.java
 /home/xelo/Desktop/ioproj/IOD-I62-Beta-Sorting/src/main/java/pl/put/poznan/sortingmadness/logic/BubbleSort.java
 /home/xelo/Desktop/ioproj/IOD-I62-Beta-Sorting/src/main/java/pl/put/poznan/sortingmadness/rest/JSONInputObj.java
-/home/xelo/Desktop/ioproj/IOD-I62-Beta-Sorting/src/main/java/pl/put/poznan/sortingmadness/rest/SortingMadnessController.java
 /home/xelo/Desktop/ioproj/IOD-I62-Beta-Sorting/src/main/java/pl/put/poznan/sortingmadness/app/SortingMadnessApplication.java
