@@ -53,31 +53,37 @@ public class SortingContext<T extends  Comparable<T>> {
         boolean sorted = false;
         SortingStrategy<T> strat = null;
         logger.info("[INFO] Creating objects");
+        Comparator<T> comparator;
+        if(order.equals("natural")) {
+            comparator = Comparator.naturalOrder();
+        } else {
+            comparator = Comparator.reverseOrder();
+        }
         for(Object alg : algorithms) {
             switch(alg.toString().toLowerCase()){
                 case "bubble":
                     logger.debug("[DEBUG] {} matched to bubble", alg.toString().toLowerCase());
-                    strat = new BubbleSort<T>(Comparator.naturalOrder());
+                    strat = new BubbleSort<>(comparator);
                     break;
                 case "insertion":
                     logger.debug("[DEBUG] {} matched to insertion", alg.toString().toLowerCase());
-                    strat = new InsertionSort<T>(Comparator.naturalOrder());
+                    strat = new InsertionSort<>(comparator);
                     break;
                 case "selection":
                     logger.debug("[DEBUG] {} matched to selection", alg.toString().toLowerCase());
-                    strat = new SelectionSort<T>(Comparator.naturalOrder());
+                    strat = new SelectionSort<>(comparator);
                     break;
                 case "quick":
                     logger.debug("[DEBUG] {} matched to quick", alg.toString().toLowerCase());
-                    strat = new QuickSort<T>(Comparator.naturalOrder());
+                    strat = new QuickSort<>(comparator);
                     break;
                 case "merge":
                     logger.debug("[DEBUG] {} matched to merge", alg.toString().toLowerCase());
-                    strat = new MergeSort<T>(Comparator.naturalOrder());
+                    strat = new MergeSort<>(comparator);
                     break;
                 case "heap":
                     logger.debug("[DEBUG] {} matched to heap", alg.toString().toLowerCase());
-                    strat = new HeapSort<T>(Comparator.naturalOrder());
+                    strat = new HeapSort<>(comparator);
                     break;
             }
 
