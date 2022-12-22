@@ -40,7 +40,7 @@ W odpowiedzi otrzymuje się:
 Przykład:
 
 ```
-na localhost:8080/api/array
+na localhost:8080/api/array/
 {
   "algorithms": ["merge", "quick", "bubble"],
   "data": ["frog","cat","dog"]
@@ -68,7 +68,7 @@ Odpowiedź:
 ```
 Przykład:
 ```
-na localhost:8080/api/object
+na localhost:8080/api/object/
 {
   "algorithms": ["merge", "heap", "bubble"],
   "data": [
