@@ -82,7 +82,6 @@ public class QuickSort<T extends  Comparable<T>> implements SortingStrategy<T> {
                     data.get(0).get(attribute) instanceof Float ||
                     data.get(0).get(attribute) instanceof Integer) {
                 for (int i = l; i < r; i++) {
-                    logger.debug("[AAAAAAAAAAAAAA] {} AND {}", Double.parseDouble(data.get(i).get(attribute).toString()), Double.parseDouble(data.get(pivot).get(attribute).toString()));
                     if (numbericObjectComparator.compare(Double.parseDouble(data.get(i).get(attribute).toString()), Double.parseDouble(data.get(pivot).get(attribute).toString())) < 0) {
                         JSONObject tmp = data.get(i);
                         data.set(i, data.get(position));
@@ -105,7 +104,6 @@ public class QuickSort<T extends  Comparable<T>> implements SortingStrategy<T> {
             }
             if(data.get(0).get(attribute) instanceof String) {
                 for (int i = l; i < r; i++) {
-                    logger.debug("[AAAAAAAAAAAAAA] {} AND {}",data.get(i).get(attribute).toString(),data.get(pivot).get(attribute).toString());
                     if (stringObjectComparator.compare(data.get(i).get(attribute).toString(), data.get(pivot).get(attribute).toString()) < 0) {
                         JSONObject tmp = data.get(i);
                         data.set(i, data.get(position));

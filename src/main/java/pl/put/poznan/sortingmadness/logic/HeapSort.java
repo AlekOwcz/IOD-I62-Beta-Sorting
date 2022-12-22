@@ -5,34 +5,58 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Comparator;
-
+/**
+ * Class implementing the HeapSort algorithm.
+ * @param <T> - data type to sort.
+ */
 public class HeapSort<T extends  Comparable<T>> implements SortingStrategy<T> {
 
     Comparator<T> comparator;
     Comparator<Double> numbericObjectComparator;
     Comparator<String> stringObjectComparator;
     private Logger logger;
+    /**
+     * Constructor for one dimensional arrays.
+     * @param comparator - comparator object of generic type.
+     */
     public HeapSort(Comparator<T> comparator) {
         this.comparator = comparator;
         logger = LoggerFactory.getLogger(HeapSort.class);
     }
+    /**
+     * Constructor for JSONObject arrays sorted by numeric attribute.
+     * @param comparator - comparator object of Double type.
+     * @param i - redundant argument used temporarily to distinguish constructors. To be changed in future releases.
+     */
     public HeapSort(Comparator<Double> comparator, int i) {
         this.numbericObjectComparator = comparator;
         logger = LoggerFactory.getLogger(HeapSort.class);
     }
-
+    /**
+     * Constructor for JSONObject arrays sorted by string attribute.
+     * @param comparator - comparator object of String type.
+     * @param i - redundant argument used temporarily to distinguish constructors. To be changed in future releases.
+     */
     public HeapSort(Comparator<String> comparator, char i) {
         this.stringObjectComparator = comparator;
         logger = LoggerFactory.getLogger(HeapSort.class);
     }
 
-
+    /**
+     * Main sorting method of the class for one dimensional arrays, calls the heap() method.
+     * @param data - input data in the form of ArrayList<T> where T should either be Double or String.
+     * @return Sorted array.
+     */
     @Override
     public ArrayList<T> sort(ArrayList<T> data) {
         return heap(data);
     }
 
-
+    /**
+     * Method implementing HeapSort algorithm, should only be called by sort() method.
+     * @param data - input data in the form of ArrayList<T> where T should either be Double or String.
+     * @return
+     */
     private ArrayList<T> heap(ArrayList<T> data)
     {
         logger.info("[INFO] Start of sorting");
@@ -52,6 +76,12 @@ public class HeapSort<T extends  Comparable<T>> implements SortingStrategy<T> {
         return data;
     }
 
+    /**
+     * Creates the heap, only called through heap() method.
+     * @param data - data to be sorted.
+     * @param n - size of heap.
+     * @param i - index of node.
+     */
     void heapify(ArrayList<T> data, int n, int i)
     {
 
@@ -72,7 +102,12 @@ public class HeapSort<T extends  Comparable<T>> implements SortingStrategy<T> {
             heapify(data, n, largest);
         }
     }
-
+    /**
+     * Main sorting method of the class for JSONObject arrays, implements algorithm directly.
+     * @param data - an ArrayList of JSONObject
+     * @param attribute - attribute of the JSON object by which the data should be sorted
+     * @return sorted array
+     */
     @Override
     public ArrayList<JSONObject> sort(ArrayList<JSONObject> data, String attribute) {
         logger.info("[INFO] Start of sorting");
@@ -91,7 +126,12 @@ public class HeapSort<T extends  Comparable<T>> implements SortingStrategy<T> {
         logger.info("[INFO] End of sorting");
         return data;
     }
-
+    /**
+     * Creates the heap, used by the JSON object sorting method, only called through sort() method.
+     * @param data - data to be sorted.
+     * @param n - size of heap.
+     * @param i - index of node.
+     */
     void heapify(ArrayList<JSONObject> data, int n, int i, String attribute)
     {
         int largest = i;

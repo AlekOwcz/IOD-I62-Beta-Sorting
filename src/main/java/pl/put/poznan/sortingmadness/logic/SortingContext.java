@@ -84,30 +84,39 @@ public class SortingContext<T extends  Comparable<T>> {
             switch(alg.toString().toLowerCase()){
                 case "bubble":
                     logger.debug("[DEBUG] {} matched to bubble", alg.toString().toLowerCase());
-                    strat = new BubbleSort<>(comparator);
+                    if(compType == 0) strat = new BubbleSort<>(comparator);
+                    if(compType == 1) strat = new BubbleSort<>(strComp, 'a');
+                    if(compType == 2) strat = new BubbleSort<>(numComp, 1);
                     break;
                 case "insertion":
                     logger.debug("[DEBUG] {} matched to insertion", alg.toString().toLowerCase());
-                    strat = new InsertionSort<>(comparator);
+                    if(compType == 0) strat = new InsertionSort<>(comparator);
+                    if(compType == 1) strat = new InsertionSort<>(strComp, 'a');
+                    if(compType == 2) strat = new InsertionSort<>(numComp, 1);
                     break;
                 case "selection":
                     logger.debug("[DEBUG] {} matched to selection", alg.toString().toLowerCase());
-                    strat = new SelectionSort<>(comparator);
+                    if(compType == 0) strat = new SelectionSort<>(comparator);
+                    if(compType == 1) strat = new SelectionSort<>(strComp, 'a');
+                    if(compType == 2) strat = new SelectionSort<>(numComp, 1);
                     break;
                 case "quick":
                     logger.debug("[DEBUG] {} matched to quick", alg.toString().toLowerCase());
-                    logger.debug("[GOD SAVE ME] {}",compType);
                     if(compType == 0) strat = new QuickSort<>(comparator);
                     if(compType == 1) strat = new QuickSort<>(strComp, 'a');
                     if(compType == 2) strat = new QuickSort<>(numComp, 1);
                     break;
                 case "merge":
                     logger.debug("[DEBUG] {} matched to merge", alg.toString().toLowerCase());
-                    strat = new MergeSort<>(comparator);
+                    if(compType == 0) strat = new MergeSort<>(comparator);
+                    if(compType == 1) strat = new MergeSort<>(strComp, 'a');
+                    if(compType == 2) strat = new MergeSort<>(numComp, 1);
                     break;
                 case "heap":
                     logger.debug("[DEBUG] {} matched to heap", alg.toString().toLowerCase());
-                    strat = new HeapSort<>(comparator);
+                    if(compType == 0) strat = new HeapSort<>(comparator);
+                    if(compType == 1) strat = new HeapSort<>(strComp, 'a');
+                    if(compType == 2) strat = new HeapSort<>(numComp, 1);
                     break;
             }
 

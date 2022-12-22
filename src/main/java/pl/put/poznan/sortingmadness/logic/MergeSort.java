@@ -6,7 +6,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-
+/**
+ * Class implementing the MergeSort algorithm.
+ * @param <T> - data type to sort.
+ */
 public class MergeSort<T extends  Comparable<T>> implements SortingStrategy<T> {
 
     Comparator<T> comparator;
@@ -14,10 +17,19 @@ public class MergeSort<T extends  Comparable<T>> implements SortingStrategy<T> {
 
     Comparator<String> stringObjectComparator;
     private Logger logger;
+    /**
+     * Constructor for one dimensional arrays.
+     * @param comparator - comparator object of generic type.
+     */
     public MergeSort(Comparator<T> comparator){
         this.comparator = comparator;
         logger = LoggerFactory.getLogger(MergeSort.class);
     }
+    /**
+     * Constructor for JSONObject arrays sorted by numeric attribute.
+     * @param comparator - comparator object of Double type.
+     * @param i - redundant argument used temporarily to distinguish constructors. To be changed in future releases.
+     */
     public MergeSort(Comparator<Double> comparator, int i) {
         this.numbericObjectComparator = comparator;
         logger = LoggerFactory.getLogger(MergeSort.class);
