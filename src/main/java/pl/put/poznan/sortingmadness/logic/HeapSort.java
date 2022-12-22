@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 /**
  * Class implementing the HeapSort algorithm.
- * @param <T> - data type to sort.
+ * @param  - data type to sort.
  */
 public class HeapSort<T extends  Comparable<T>> implements SortingStrategy<T> {
 
@@ -44,7 +44,7 @@ public class HeapSort<T extends  Comparable<T>> implements SortingStrategy<T> {
 
     /**
      * Main sorting method of the class for one dimensional arrays, calls the heap() method.
-     * @param data - input data in the form of ArrayList<T> where T should either be Double or String.
+     * @param data - input data in the form of ArrayList where T should either be Double or String.
      * @return Sorted array.
      */
     @Override
@@ -54,7 +54,7 @@ public class HeapSort<T extends  Comparable<T>> implements SortingStrategy<T> {
 
     /**
      * Method implementing HeapSort algorithm, should only be called by sort() method.
-     * @param data - input data in the form of ArrayList<T> where T should either be Double or String.
+     * @param data - input data in the form of ArrayList where T should either be Double or String.
      * @return sorted array
      */
     private ArrayList<T> heap(ArrayList<T> data)
