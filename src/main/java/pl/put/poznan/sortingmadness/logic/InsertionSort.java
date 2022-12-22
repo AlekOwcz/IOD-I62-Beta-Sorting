@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 /**
  * Class implementing the InsertionSort algorithm.
- * @param <T> - data type to sort.
+ * @param - data type to sort.
  */
 public class InsertionSort<T extends  Comparable<T>> implements SortingStrategy<T> {
 
@@ -45,7 +45,7 @@ public class InsertionSort<T extends  Comparable<T>> implements SortingStrategy<
     }
     /**
      * Main sorting method of the class for one dimensional arrays.
-     * @param data - input data in the form of ArrayList<T> where T should either be Double or String.
+     * @param data - input data in the form of ArrayList where T should either be Double or String.
      * @return Sorted array.
      */
     @Override
