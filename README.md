@@ -14,8 +14,7 @@ https://docs.google.com/spreadsheets/d/1MLzHxiqQfQxyYSjGcKBivVYCn91ZMFkZ/edit?us
 
 Uml:
 
-
-
+![uml-diagram](https://user-images.githubusercontent.com/95354097/209042779-483d8249-baab-4063-9d7e-d1457964cf22.png)
 
 
 
