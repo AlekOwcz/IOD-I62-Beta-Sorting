@@ -46,7 +46,7 @@ public class QuickSort<T extends  Comparable<T>> implements SortingStrategy<T> {
     }
     /**
      * Main sorting method of the class for one dimensional arrays, calls the quick() method.
-     * @param data - input data in the form of ArrayList<T> where T should either be Double or String.
+     * @param data - input data in the form of ArrayList of type either Double or String.
      * @return Sorted array.
      */
     @Override
@@ -58,7 +58,7 @@ public class QuickSort<T extends  Comparable<T>> implements SortingStrategy<T> {
     }
     /**
      * Method implementing QuickSort algorithm, should only be called by sort() method.
-     * @param data - input data in the form of ArrayList<T> where T should either be Double or String.
+     * @param data - input data in the form of ArrayList of type either Double or String.
      * @return Sorted array
      */
     private void quick(ArrayList<T> data, int l, int r) {
@@ -105,7 +105,7 @@ public class QuickSort<T extends  Comparable<T>> implements SortingStrategy<T> {
     }
     /**
      * Method implementing QuickSort algorithm, used by JSONObject sorting, should only be called by sort() method.
-     * @param data - input data in the form of ArrayList<T> where T should either be Double or String.
+     * @param data - input data in the form of ArrayList of type either Double or String.
      * @return sorted array
      */
     private void quick(ArrayList<JSONObject> data, int l, int r, String attribute) {
