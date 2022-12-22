@@ -8,7 +8,7 @@ import java.util.Comparator;
 
 /**
  * Class implementing the BubbleSort algorithm.
- * @param - data type to sort.
+ * @param <T> - data type to sort.
  */
 public class BubbleSort<T extends  Comparable<T>> implements SortingStrategy<T> {
 
