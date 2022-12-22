@@ -1,4 +1,4 @@
-# IOD-I62-Beta-Sorting
+﻿# IOD-I62-Beta-Sorting
 ![Workflow](https://github.com/AlekOwcz/IOD-I62-Beta-Sorting/actions/workflows/ci.yml/badge.svg)
 ## Opis
 
@@ -9,6 +9,12 @@ Aplikacja służąca do sortowania zbiorów danych różnymi algorytmami. Ma pom
 ## Tymczasowy Product Backlog i Sprint Backlog
 
 https://docs.google.com/spreadsheets/d/1MLzHxiqQfQxyYSjGcKBivVYCn91ZMFkZ/edit?usp=sharing&ouid=118051814163568633415&rtpof=true&sd=true
+
+
+
+Uml:
+
+![uml-diagram](https://user-images.githubusercontent.com/95354097/209042779-483d8249-baab-4063-9d7e-d1457964cf22.png)
 
 
 
