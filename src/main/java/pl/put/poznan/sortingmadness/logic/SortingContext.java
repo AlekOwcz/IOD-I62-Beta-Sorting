@@ -12,15 +12,21 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 /**
- * SortingContext class takes care of creating instances of SortingStrategy, calling them, measuring time and storing resulting Lists
- * For one dimensional arrays use data and sortedData fields and set them using
+ * SortingContext class takes care of creating instances of SortingStrategy, calling them, measuring time and storing resulting Lists.
  *
+ * For one dimensional arrays use data and sortedData fields.
+ * To access them use setData() and getSortedData() methods.
+ *
+ * For JSON Objects use jsonData and sortedObjectData fields.
+ * To access them use setJsonData() and getSortedJsonData() methods.
+ *
+ * The sorting order can be set through setOrder() method.
  */
 public class SortingContext<T extends  Comparable<T>> {
 
     private static final Logger logger = LoggerFactory.getLogger(SortingMadnessController.class);
     private ArrayList<T> data;
-    private ArrayList<JSONObject> jsonData;
+    private ArrayList<JSONObject> jsonData = null;
     private final ArrayList<Long> times = new ArrayList<>();
     private JSONArray algorithms;
     private ArrayList<T> sortedData = null;
@@ -47,17 +53,32 @@ public class SortingContext<T extends  Comparable<T>> {
     public ArrayList<JSONObject> getSortedJsonData() { return sortedObjectData; }
     public ArrayList<Long> getTimes() { return times; }
 
-
+    /**
+     * The sort() method is the main method responsible for calling the sort function for each algorithm in algorithms list (provided through setAlgorithms() method)
+     * The measured times are stored in times ArrayList as Long values.
+     */
     public void sort() {
         logger.info("[INFO] Start sorting method");
         boolean sorted = false;
         SortingStrategy<T> strat = null;
         logger.info("[INFO] Creating objects");
         Comparator<T> comparator;
-        if(order.equals("natural")) {
-            comparator = Comparator.naturalOrder();
-        } else {
+        Comparator<Double> numComp;
+        Comparator<String> strComp;
+        logger.info("[DEBUG] Sorting order: {}", order);
+        if(order.equals("reverse")) {
             comparator = Comparator.reverseOrder();
+            numComp = Comparator.reverseOrder();
+            strComp = Comparator.reverseOrder();
+        } else {
+            comparator = Comparator.naturalOrder();
+            numComp = Comparator.naturalOrder();
+            strComp = Comparator.naturalOrder();
+        }
+        int compType = 0;
+        if(jsonData != null){
+            if(jsonData.get(0).get(attribute) instanceof String) compType = 1;
+            else compType = 2;
         }
         for(Object alg : algorithms) {
             switch(alg.toString().toLowerCase()){
@@ -75,7 +96,10 @@ public class SortingContext<T extends  Comparable<T>> {
                     break;
                 case "quick":
                     logger.debug("[DEBUG] {} matched to quick", alg.toString().toLowerCase());
-                    strat = new QuickSort<>(comparator);
+                    logger.debug("[GOD SAVE ME] {}",compType);
+                    if(compType == 0) strat = new QuickSort<>(comparator);
+                    if(compType == 1) strat = new QuickSort<>(strComp, 'a');
+                    if(compType == 2) strat = new QuickSort<>(numComp, 1);
                     break;
                 case "merge":
                     logger.debug("[DEBUG] {} matched to merge", alg.toString().toLowerCase());

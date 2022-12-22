@@ -10,9 +10,22 @@ import java.util.Comparator;
 public class QuickSort<T extends  Comparable<T>> implements SortingStrategy<T> {
 
     Comparator<T> comparator;
+
+    Comparator<Double> numbericObjectComparator;
+
+    Comparator<String> stringObjectComparator;
     private Logger logger;
     public QuickSort(Comparator<T> comparator) {
         this.comparator = comparator;
+        logger = LoggerFactory.getLogger(QuickSort.class);
+    }
+    public QuickSort(Comparator<Double> comparator, int i) {
+        this.numbericObjectComparator = comparator;
+        logger = LoggerFactory.getLogger(QuickSort.class);
+    }
+
+    public QuickSort(Comparator<String> comparator, char i) {
+        this.stringObjectComparator = comparator;
         logger = LoggerFactory.getLogger(QuickSort.class);
     }
     @Override
@@ -65,26 +78,55 @@ public class QuickSort<T extends  Comparable<T>> implements SortingStrategy<T> {
         if (r - l > 1) {
             int pivot = l + (r - l) / 2;
             int position = l;
-            for (int i = l; i < r; i++) {
-                if (comparator.compare((T) data.get(i).get(attribute), (T) data.get(pivot).get(attribute)) < 0) {
-                    JSONObject tmp = data.get(i);
-                    data.set(i, data.get(position));
-                    data.set(position,  tmp);
-                    if (position == pivot) {
-                        pivot = i;
+            if(data.get(0).get(attribute) instanceof Double ||
+                    data.get(0).get(attribute) instanceof Float ||
+                    data.get(0).get(attribute) instanceof Integer) {
+                for (int i = l; i < r; i++) {
+                    logger.debug("[AAAAAAAAAAAAAA] {} AND {}", Double.parseDouble(data.get(i).get(attribute).toString()), Double.parseDouble(data.get(pivot).get(attribute).toString()));
+                    if (numbericObjectComparator.compare(Double.parseDouble(data.get(i).get(attribute).toString()), Double.parseDouble(data.get(pivot).get(attribute).toString())) < 0) {
+                        JSONObject tmp = data.get(i);
+                        data.set(i, data.get(position));
+                        data.set(position,  tmp);
+                        if (position == pivot) {
+                            pivot = i;
+                        }
+                        position++;
                     }
+                }
+                while(position < r - 1 && position != pivot && numbericObjectComparator.compare(Double.parseDouble(data.get(position).get(attribute).toString()) , Double.parseDouble(data.get(pivot).get(attribute).toString())) == 0) {
                     position++;
                 }
+                if(numbericObjectComparator.compare(Double.parseDouble(data.get(pivot).get(attribute).toString()), Double.parseDouble(data.get(position).get(attribute).toString())) < 0) {
+                    JSONObject tmp = data.get(pivot);
+                    data.set(pivot, data.get(position));
+                    data.set(position, tmp);
+                    pivot = position;
+                }
             }
-            while(position < r - 1 && position != pivot && comparator.compare((T) data.get(position).get(attribute), (T) data.get(pivot).get(attribute)) == 0) {
-                position++;
+            if(data.get(0).get(attribute) instanceof String) {
+                for (int i = l; i < r; i++) {
+                    logger.debug("[AAAAAAAAAAAAAA] {} AND {}",data.get(i).get(attribute).toString(),data.get(pivot).get(attribute).toString());
+                    if (stringObjectComparator.compare(data.get(i).get(attribute).toString(), data.get(pivot).get(attribute).toString()) < 0) {
+                        JSONObject tmp = data.get(i);
+                        data.set(i, data.get(position));
+                        data.set(position,  tmp);
+                        if (position == pivot) {
+                            pivot = i;
+                        }
+                        position++;
+                    }
+                }
+                while(position < r - 1 && position != pivot && stringObjectComparator.compare(data.get(position).get(attribute).toString(), data.get(pivot).get(attribute).toString()) == 0) {
+                    position++;
+                }
+                if(stringObjectComparator.compare(data.get(pivot).get(attribute).toString(), data.get(position).get(attribute).toString()) < 0) {
+                    JSONObject tmp = data.get(pivot);
+                    data.set(pivot, data.get(position));
+                    data.set(position, tmp);
+                    pivot = position;
+                }
             }
-            if(comparator.compare((T) data.get(pivot).get(attribute), (T) data.get(position).get(attribute)) < 0) {
-                JSONObject tmp = data.get(pivot);
-                data.set(pivot, data.get(position));
-                data.set(position, tmp);
-                pivot = position;
-            }
+
             logger.debug("[DEBUG] List state {}", data);
             quick(data, l, pivot, attribute);
             quick(data, pivot, r, attribute);

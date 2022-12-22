@@ -41,7 +41,10 @@ public class SortingMadnessController {
 
         try {
             order = jsonObj.get("order").toString();
-        } catch (JSONException ignored) {}
+            logger.info("[DEBUG] Order field value: {}", order);
+        } catch (JSONException ignored) {
+            logger.info("[DEBUG] Failed to read order field");
+        }
 
         JSONArray data = jsonObj.getJSONArray("data");
 
@@ -122,7 +125,10 @@ public class SortingMadnessController {
 
         try {
             order = jsonObj.get("order").toString();
-        } catch (JSONException ignored) {}
+            logger.info("[DEBUG] Order field value: {}", order);
+        } catch (JSONException ignored) {
+            logger.info("[DEBUG] Failed to read order field");
+        }
 
         String attr = jsonObj.get("attribute").toString();
         JSONArray data = jsonObj.getJSONArray("data");

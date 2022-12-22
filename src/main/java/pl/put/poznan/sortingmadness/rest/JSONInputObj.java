@@ -9,14 +9,18 @@ public class JSONInputObj {
     @JsonProperty("data")
     private Object data;
 
+    @JsonProperty("order")
+    private String order;
     @JsonProperty("attribute")
     private String attribute;
     public JSONInputObj(@JsonProperty("data") Object data,
                         @JsonProperty("algorithms") Object algorithms,
-                        @JsonProperty("attribute") String attribute) {
+                        @JsonProperty("attribute") String attribute,
+                        @JsonProperty("order") String order) {
         this.algorithms = algorithms;
         this.data = data;
         this.attribute = attribute;
+        this.order = order;
     }
 
     public Object getAlgorithms() {
@@ -38,4 +42,8 @@ public class JSONInputObj {
     public String getAttribute() { return attribute; }
 
     public void setAttribute(String attribute) { this.attribute=attribute; }
+
+    public String getOrder() { return order; }
+
+    public void setOrder(String order) { this.order = order; }
 }
