@@ -20,7 +20,7 @@ Z api łączymy się wysyłając polecenia POST na localhost:8080/api/
 Dla sortowania jednowymiarowych zbiorów danych wysyłamy na localhost:8080/api/array/
 Dla sortowania obiektów wysyłamy na localhost:8080/api/object/
 
-Format JSON'a:
+Format wejściowy JSON'a:
 ```
 {
   "algorithms":[<Lista algorytmów, dostępne: "quick","merge","heap","bubble","insertion","selection">],
@@ -28,9 +28,98 @@ Format JSON'a:
   (opcjonalne)"order":<"natural" lub "reversed">,
   (obowiązkowe dla obiektów)"attribute":<Atrybut obiektu względem którego ma odbyć się sortowanie>
 }
+```
+W odpowiedzi otrzymuje się:
+```
+{
+  "algorithms":[<Lista podanych na wejściu algorytmów>],
+  "times":[<Lista czasów wykonania w milisekundach dla odpowiadających elementów listy "algorithms" (-1 jeśli algorytm był nieznany)>],
+  "sortedData":[<>Lista posortowanych elementów wejściowych]
+}
+```
+Przykład:
 
+```
+na localhost:8080/api/array
+{
+  "algorithms": ["merge", "quick", "bubble"],
+  "data": ["frog","cat","dog"]
+}
+```
+Odpowiedź:
+```
+{
+    "algorithms": [
+        "merge",
+        "quick",
+        "bubble"
+    ],
+    "times": [
+        0,
+        0,
+        0
+    ],
+    "sortedDataData": [
+        "cat",
+        "dog",
+        "frog"
+    ]
+}
+```
 Przykład:
 ```
+na localhost:8080/api/object
+{
+  "algorithms": ["merge", "heap", "bubble"],
+  "data": [
+      {
+          "a":5,
+          "b":4
+      },
+      {
+          "a":2.3,
+          "c":"kot"
+      },
+      {
+          "a":65.2,
+          "b":4
+      }
+  ],
+  "attribute":"a",
+  "order":"reverse"
+}
+```
+Odpowiedź:
+```
+{
+    "algorithms": [
+        "merge",
+        "heap",
+        "bubble"
+    ],
+    "times": [
+        3,
+        7,
+        0
+    ],
+    "sortedDataData": [
+        {
+            "a": 65.2,
+            "b": 4
+        },
+        {
+            "a": 5,
+            "b": 4
+        },
+        {
+            "a": 2.3,
+            "c": "kot"
+        }
+    ],
+    "attribute": "a"
+}
+```
+
 ## UML:
 
 ![uml-diagram](https://user-images.githubusercontent.com/95354097/209042779-483d8249-baab-4063-9d7e-d1457964cf22.png)
