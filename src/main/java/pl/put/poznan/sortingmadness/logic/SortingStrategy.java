@@ -12,8 +12,8 @@ import java.util.Comparator;
 public interface SortingStrategy<T extends Comparable<T>>{
     /**
      * Method for calling the sorting algorithm
-     * @param data - input data in the form of ArrayList<T> where T should either be Double or String
-     * @return ArrayList<T> of sorted data
+     * @param data - input data in the form of ArrayList of type either Double or String
+     * @return ArrayList of sorted data
      */
     ArrayList<T> sort(ArrayList<T> data);
 
