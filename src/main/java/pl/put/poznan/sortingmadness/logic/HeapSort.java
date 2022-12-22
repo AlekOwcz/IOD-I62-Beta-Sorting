@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 /**
  * Class implementing the HeapSort algorithm.
- * @param  - data type to sort.
+ * @param <T> - data type to sort.
  */
 public class HeapSort<T extends  Comparable<T>> implements SortingStrategy<T> {
 
