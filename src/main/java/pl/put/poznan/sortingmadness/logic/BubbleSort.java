@@ -8,7 +8,7 @@ import java.util.Comparator;
 
 /**
  * Class implementing the BubbleSort algorithm.
- * @param <T> - data type to sort.
+ * @param - data type to sort.
  */
 public class BubbleSort<T extends  Comparable<T>> implements SortingStrategy<T> {
 
@@ -49,7 +49,7 @@ public class BubbleSort<T extends  Comparable<T>> implements SortingStrategy<T> 
 
     /**
      * Main sorting method of the class for one dimensional arrays, calls the bubble() method.
-     * @param data - input data in the form of ArrayList<T> where T should either be Double or String.
+     * @param data - input data in the form of ArrayList where T should either be Double or String.
      * @return Sorted array.
      */
     @Override
