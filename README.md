@@ -10,9 +10,28 @@ Aplikacja służąca do sortowania zbiorów danych różnymi algorytmami. Ma pom
 
 https://docs.google.com/spreadsheets/d/1MLzHxiqQfQxyYSjGcKBivVYCn91ZMFkZ/edit?usp=sharing&ouid=118051814163568633415&rtpof=true&sd=true
 
+## Instalacja
+By zainstalować aplikacje uruchom polecenie ```mvn site``` w folderze z pom.xml
 
+## Użycie
 
-Uml:
+Z api łączymy się wysyłając polecenia POST na localhost:8080/api/
+
+Dla sortowania jednowymiarowych zbiorów danych wysyłamy na localhost:8080/api/array/
+Dla sortowania obiektów wysyłamy na localhost:8080/api/object/
+
+Format JSON'a:
+```
+{
+  "algorithms":[<Lista algorytmów, dostępne: "quick","merge","heap","bubble","insertion","selection">],
+  "data":[<Lista liczb, stringów lub obiektów>],
+  (opcjonalne)"order":<"natural" lub "reversed">,
+  (obowiązkowe dla obiektów)"attribute":<Atrybut obiektu względem którego ma odbyć się sortowanie>
+}
+
+Przykład:
+```
+## UML:
 
 ![uml-diagram](https://user-images.githubusercontent.com/95354097/209042779-483d8249-baab-4063-9d7e-d1457964cf22.png)
 
