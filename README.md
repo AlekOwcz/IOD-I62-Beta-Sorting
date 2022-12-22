@@ -11,7 +11,7 @@ Aplikacja służąca do sortowania zbiorów danych różnymi algorytmami. Ma pom
 https://docs.google.com/spreadsheets/d/1MLzHxiqQfQxyYSjGcKBivVYCn91ZMFkZ/edit?usp=sharing&ouid=118051814163568633415&rtpof=true&sd=true
 
 ## Instalacja
-By zainstalować aplikacje uruchom polecenie ```mvn site``` w folderze z pom.xml
+By zainstalować aplikacje uruchom polecenie ```mvn install``` w folderze z pom.xml
 
 ## Użycie
 
