@@ -59,7 +59,7 @@ public class BubbleSort<T extends  Comparable<T>> implements SortingStrategy<T> 
 
     /**
      * Method implementing BubbleSort algorithm, should only be called by sort() method.
-     * @param data - input data in the form of ArrayList<T> where T should either be Double or String.
+     * @param data - input data in the form of ArrayList where T should either be Double or String.
      * @return Sorted array
      */
     private ArrayList<T> bubble(ArrayList<T> data){
