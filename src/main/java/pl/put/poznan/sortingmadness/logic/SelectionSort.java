@@ -6,7 +6,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-
+/**
+ * Class implementing the SelectionSort algorithm.
+ * @param <T> - data type to sort.
+ */
 public class SelectionSort<T extends  Comparable<T>> implements SortingStrategy<T> {
 
     Comparator<T> comparator;
@@ -14,19 +17,37 @@ public class SelectionSort<T extends  Comparable<T>> implements SortingStrategy<
 
     Comparator<String> stringObjectComparator;
     private Logger logger;
+    /**
+     * Constructor for one dimensional arrays.
+     * @param comparator - comparator object of generic type.
+     */
     public SelectionSort(Comparator<T> comparator){
         this.comparator = comparator;
         logger = LoggerFactory.getLogger(SelectionSort.class);
     }
+    /**
+     * Constructor for JSONObject arrays sorted by numeric attribute.
+     * @param comparator - comparator object of Double type.
+     * @param i - redundant argument used temporarily to distinguish constructors. To be changed in future releases.
+     */
     public SelectionSort(Comparator<Double> comparator, int i) {
         this.numbericObjectComparator = comparator;
         logger = LoggerFactory.getLogger(SelectionSort.class);
     }
-
+    /**
+     * Constructor for JSONObject arrays sorted by string attribute.
+     * @param comparator - comparator object of String type.
+     * @param i - redundant argument used temporarily to distinguish constructors. To be changed in future releases.
+     */
     public SelectionSort(Comparator<String> comparator, char i) {
         this.stringObjectComparator = comparator;
         logger = LoggerFactory.getLogger(SelectionSort.class);
     }
+    /**
+     * Main sorting method of the class for one dimensional arrays.
+     * @param data - input data in the form of ArrayList<T> where T should either be Double or String.
+     * @return Sorted array.
+     */
     @Override
     public ArrayList<T> sort(ArrayList<T> data) {
         logger.info("[INFO] Start of sorting");
@@ -47,7 +68,11 @@ public class SelectionSort<T extends  Comparable<T>> implements SortingStrategy<
         logger.info("[INFO] End of sorting");
         return data;
     }
-
+    /**
+     * Main sorting method of the class for one JSONObject arrays.
+     * @param data - input data in the form of ArrayList of JSONObjects.
+     * @return Sorted array.
+     */
     @Override
     public ArrayList<JSONObject> sort(ArrayList<JSONObject> data, String attribute) {
         logger.info("[INFO] Start of sorting");

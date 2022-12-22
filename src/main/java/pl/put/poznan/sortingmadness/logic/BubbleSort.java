@@ -60,7 +60,7 @@ public class BubbleSort<T extends  Comparable<T>> implements SortingStrategy<T> 
     /**
      * Method implementing BubbleSort algorithm, should only be called by sort() method.
      * @param data - input data in the form of ArrayList<T> where T should either be Double or String.
-     * @return
+     * @return Sorted array
      */
     private ArrayList<T> bubble(ArrayList<T> data){
         logger.info("[INFO] Start of sorting");
@@ -81,7 +81,7 @@ public class BubbleSort<T extends  Comparable<T>> implements SortingStrategy<T> 
      * Main sorting method of the class for JSONObject arrays, implements algorithm directly.
      * @param data - an ArrayList of JSONObject
      * @param attribute - attribute of the JSON object by which the data should be sorted
-     * @return sorted array
+     * @return Sorted array
      */
     @Override
     public ArrayList<JSONObject> sort(ArrayList<JSONObject> data, String attribute) {

@@ -55,7 +55,7 @@ public class HeapSort<T extends  Comparable<T>> implements SortingStrategy<T> {
     /**
      * Method implementing HeapSort algorithm, should only be called by sort() method.
      * @param data - input data in the form of ArrayList<T> where T should either be Double or String.
-     * @return
+     * @return sorted array
      */
     private ArrayList<T> heap(ArrayList<T> data)
     {
