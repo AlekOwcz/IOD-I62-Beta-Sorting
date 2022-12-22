@@ -45,7 +45,7 @@ public class MergeSort<T extends  Comparable<T>> implements SortingStrategy<T> {
     }
     /**
      * Main sorting method of the class for one dimensional arrays, calls the mergeSort() method.
-     * @param data - input data in the form of ArrayList<T> where T should either be Double or String.
+     * @param data - input data in the form of ArrayList where T should either be Double or String.
      * @return Sorted array.
      */
     @Override
@@ -56,7 +56,7 @@ public class MergeSort<T extends  Comparable<T>> implements SortingStrategy<T> {
 
     /**
      * Method implementing MergeSort algorithm, should only be called by sort() method.
-     * @param data - input data in the form of ArrayList<T> where T should either be Double or String.
+     * @param data - input data in the form of ArrayList where T should either be Double or String.
      * @return sorted array
      */
     private ArrayList<T> mergeSort(ArrayList<T> data){
@@ -101,7 +101,7 @@ public class MergeSort<T extends  Comparable<T>> implements SortingStrategy<T> {
     }
     /**
      * Method implementing MergeSort algorithm, used by JSONObject sorting, should only be called by sort() method.
-     * @param data - input data in the form of ArrayList<T> where T should either be Double or String.
+     * @param data - input data in the form of ArrayList where T should either be Double or String.
      * @return sorted array
      */
     private ArrayList<JSONObject> mergeSort(ArrayList<JSONObject> data, String attribute){
