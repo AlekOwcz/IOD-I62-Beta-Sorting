@@ -45,7 +45,7 @@ public class InsertionSort<T extends  Comparable<T>> implements SortingStrategy<
     }
     /**
      * Main sorting method of the class for one dimensional arrays.
-     * @param data - input data in the form of ArrayList where T should either be Double or String.
+     * @param data - input data in the form of ArrayList of type either Double or String.
      * @return Sorted array.
      */
     @Override
