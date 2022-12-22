@@ -9,11 +9,23 @@ import java.util.Comparator;
 public class HeapSort<T extends  Comparable<T>> implements SortingStrategy<T> {
 
     Comparator<T> comparator;
+    Comparator<Double> numbericObjectComparator;
+    Comparator<String> stringObjectComparator;
     private Logger logger;
     public HeapSort(Comparator<T> comparator) {
         this.comparator = comparator;
-        logger = LoggerFactory.getLogger(InsertionSort.class);
+        logger = LoggerFactory.getLogger(HeapSort.class);
     }
+    public HeapSort(Comparator<Double> comparator, int i) {
+        this.numbericObjectComparator = comparator;
+        logger = LoggerFactory.getLogger(HeapSort.class);
+    }
+
+    public HeapSort(Comparator<String> comparator, char i) {
+        this.stringObjectComparator = comparator;
+        logger = LoggerFactory.getLogger(HeapSort.class);
+    }
+
 
     @Override
     public ArrayList<T> sort(ArrayList<T> data) {
@@ -86,17 +98,33 @@ public class HeapSort<T extends  Comparable<T>> implements SortingStrategy<T> {
         int l = 2*i + 1;
         int r = 2*i + 2;
 
-        if (l < n && comparator.compare((T) data.get(l).get(attribute) , (T) data.get(largest)) > 0)
-            largest = l;
+        if(data.get(0).get(attribute) instanceof Double ||
+                data.get(0).get(attribute) instanceof Float ||
+                data.get(0).get(attribute) instanceof Integer) {
+            if (l < n && numbericObjectComparator.compare(Double.parseDouble(data.get(l).get(attribute).toString()), Double.parseDouble(data.get(largest).get(attribute).toString())) > 0)
+                largest = l;
 
-        if (r < n && comparator.compare((T) data.get(r).get(attribute) ,(T) data.get(largest).get(attribute)) > 0)
-            largest = r;
-        if (largest != i)
-        {
-            JSONObject swap = data.get(i);
-            data.set(i, data.get(largest));
-            data.set(largest, swap);
-            heapify(data, n, largest, attribute);
+            if (r < n && numbericObjectComparator.compare(Double.parseDouble(data.get(r).get(attribute).toString()), Double.parseDouble(data.get(largest).get(attribute).toString())) > 0)
+                largest = r;
+            if (largest != i) {
+                JSONObject swap = data.get(i);
+                data.set(i, data.get(largest));
+                data.set(largest, swap);
+                heapify(data, n, largest, attribute);
+            }
+        }
+        if(data.get(0).get(attribute) instanceof String){
+            if (l < n && stringObjectComparator.compare(data.get(l).get(attribute).toString(), data.get(largest).get(attribute).toString()) > 0)
+                largest = l;
+
+            if (r < n && stringObjectComparator.compare(data.get(r).get(attribute).toString(), data.get(largest).get(attribute).toString()) > 0)
+                largest = r;
+            if (largest != i) {
+                JSONObject swap = data.get(i);
+                data.set(i, data.get(largest));
+                data.set(largest, swap);
+                heapify(data, n, largest, attribute);
+            }
         }
     }
 }
