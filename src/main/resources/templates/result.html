@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Result</title>
+    <style>
+        div {text-align: center;}
+        .button {
+            background-color:  #673ab7;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+        body {
+            background-color: #009688;
+            font-size: xx-large;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <h1>Result</h1>
+    <p th:text="'Sorted data: ' + ${sortedData}" />
+    <p>Times:</p>
+    <div th:each="method: ${selectedMethods}">
+        <span th:text="${method}"></span>
+    </div>
+    <br>
+    <a href="/sort" class="button">Sort another dara</a>
+</div>
+</body>
+</html>

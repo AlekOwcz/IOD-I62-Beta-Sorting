@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sorting madness</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+    <style>
+        div {text-align: center;}
+    </style>
+</head>
+<body>
+<div>
+<h1>Sorting Madness</h1>
+<form method="POST" th:action="@{/sort}" th:object="${formInput}">
+    <div id="sortingForm">
+        <div class="parent">
+            <div class="child">
+                <p><label>Methods:</label></p>
+                <input type="checkbox" id="quick" name="quick" value="quick" th:field="*{methods}">
+                <label for="quick"> Quick sort</label><br>
+                <input type="checkbox" id="merge" name="merge" value="merge" th:field="*{methods}">
+                <label for="merge"> Merge sort</label><br>
+                <input type="checkbox" id="heap" name="heap" value="heap" th:field="*{methods}">
+                <label for="heap"> Heap sort</label><br>
+                <input type="checkbox" id="bubble" name="bubble" value="bubble" th:field="*{methods}">
+                <label for="bubble"> Bubble sort</label><br>
+                <input type="checkbox" id="insertion" name="insertion" value="insertion" th:field="*{methods}">
+                <label for="insertion"> Insertion sort</label><br>
+                <input type="checkbox" id="selection" name="selection" value="selection" th:field="*{methods}">
+                <label for="selection"> Selection sort</label><br>
+            </div>
+            <div class="child">
+                <p><label>Order:</label></p>
+                <input type="radio" id="natural" name="order" value="natural" th:field="*{order}">
+                <label for="natural"> Natural </label><br>
+                <input type="radio" id="reversed" name="order" value="reverse" th:field="*{order}">
+                <label for="reversed"> Reversed </label><br>
+            </div>
+            <div class="child">
+                <p><label>Type:</label></p>
+                <input type="radio" id="number" value="number" th:field="*{type}">
+                <label for="number"> Number </label><br>
+                <input type="radio" id="text" value="text" th:field="*{type}">
+                <label for="text"> Text </label><br>
+                <input type="radio" id="jsonNumber" value="jsonNumber" th:field="*{type}">
+                <label for="jsonNumber"> JSON number </label><br>
+                <input type="radio" id="jsonText" value="jsonText" th:field="*{type}">
+                <label for="jsonText"> JSON text</label><br>
+            </div>
+        </div>
+        <p><label for="data">Data to sort:</label></p>
+        <div>
+            <textarea id="data" name="data" rows="10" cols="50" th:text="*{data}">
+            </textarea>
+            <br>
+        </div>
+        <div>
+            <p><label for="attribute">JSON Attribute:</label></p>
+            <input type="text" id="attribute" th:field="*{attribute}">
+        </div>
+    </div>
+    <input id="sortSubmit" type="submit" value="Sort">
+</form>
+</div>
+</body>
+</html>

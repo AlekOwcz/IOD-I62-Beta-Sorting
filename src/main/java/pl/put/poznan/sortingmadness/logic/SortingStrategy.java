@@ -1,10 +1,8 @@
 package pl.put.poznan.sortingmadness.logic;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 
 /**
  * Interface for implementing sorting algorithms.
