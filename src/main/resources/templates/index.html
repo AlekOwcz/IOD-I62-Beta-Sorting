@@ -28,6 +28,9 @@
                 <label for="insertion"> Insertion sort</label><br>
                 <input type="checkbox" id="selection" name="selection" value="selection" th:field="*{methods}">
                 <label for="selection"> Selection sort</label><br>
+                <span class="validationError" th:if="${#fields.hasErrors('methods')}" >
+                    Not selected
+                </span>
             </div>
             <div class="child">
                 <p><label>Order:</label></p>
@@ -35,6 +38,9 @@
                 <label for="natural"> Natural </label><br>
                 <input type="radio" id="reversed" name="order" value="reverse" th:field="*{order}">
                 <label for="reversed"> Reversed </label><br>
+                <span class="validationError" th:if="${#fields.hasErrors('order')}" >
+                    Not selected
+                </span>
             </div>
             <div class="child">
                 <p><label>Type:</label></p>
@@ -46,12 +52,18 @@
                 <label for="jsonNumber"> JSON number </label><br>
                 <input type="radio" id="jsonText" value="jsonText" th:field="*{type}">
                 <label for="jsonText"> JSON text</label><br>
+                <span class="validationError" th:if="${#fields.hasErrors('type')}">
+                    Not selected
+                </span>
             </div>
         </div>
         <p><label for="data">Data to sort:</label></p>
         <div>
             <textarea id="data" name="data" rows="10" cols="50" th:text="*{data}">
             </textarea>
+            <span class="validationError" th:if="${#fields.hasErrors('data')}">
+                    Empty field
+                </span>
             <br>
         </div>
         <div>

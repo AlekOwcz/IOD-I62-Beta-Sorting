@@ -17,7 +17,7 @@ public class BubbleSort<T extends  Comparable<T>> implements SortingStrategy<T> 
     Comparator<Double> numbericObjectComparator;
 
     Comparator<String> stringObjectComparator;
-    private Logger logger;
+    private final Logger logger;
 
     /**
      * Constructor for one dimensional arrays.

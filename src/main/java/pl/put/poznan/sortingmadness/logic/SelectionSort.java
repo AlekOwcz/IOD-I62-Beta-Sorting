@@ -16,7 +16,7 @@ public class SelectionSort<T extends  Comparable<T>> implements SortingStrategy<
     Comparator<Double> numbericObjectComparator;
 
     Comparator<String> stringObjectComparator;
-    private Logger logger;
+    private final Logger logger;
     /**
      * Constructor for one dimensional arrays.
      * @param comparator - comparator object of generic type.

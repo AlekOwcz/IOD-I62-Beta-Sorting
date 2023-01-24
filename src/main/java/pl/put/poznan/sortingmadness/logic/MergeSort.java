@@ -16,7 +16,7 @@ public class MergeSort<T extends  Comparable<T>> implements SortingStrategy<T> {
     Comparator<Double> numbericObjectComparator;
 
     Comparator<String> stringObjectComparator;
-    private Logger logger;
+    private final Logger logger;
     /**
      * Constructor for one dimensional arrays.
      * @param comparator - comparator object of generic type.
@@ -106,9 +106,9 @@ public class MergeSort<T extends  Comparable<T>> implements SortingStrategy<T> {
      */
     private ArrayList<JSONObject> mergeSort(ArrayList<JSONObject> data, String attribute){
         if (data.size() > 1) {
-            ArrayList<JSONObject> left = mergeSort(new ArrayList<JSONObject>(data.subList(0, data.size() / 2)), attribute);
-            ArrayList<JSONObject> right = mergeSort(new ArrayList<JSONObject>(data.subList(data.size() / 2, data.size())), attribute);
-            ArrayList<JSONObject> result = new ArrayList<JSONObject>(data.size());
+            ArrayList<JSONObject> left = mergeSort(new ArrayList<>(data.subList(0, data.size() / 2)), attribute);
+            ArrayList<JSONObject> right = mergeSort(new ArrayList<>(data.subList(data.size() / 2, data.size())), attribute);
+            ArrayList<JSONObject> result = new ArrayList<>(data.size());
             int i = 0;
             int j = 0;
             if(data.get(0).get(attribute) instanceof Double ||

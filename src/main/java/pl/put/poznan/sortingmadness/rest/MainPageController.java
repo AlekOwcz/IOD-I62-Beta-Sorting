@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pl.put.poznan.sortingmadness.logic.FormInput;
 import pl.put.poznan.sortingmadness.logic.SortingContext;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -23,7 +25,10 @@ public class MainPageController {
         return "index";
     }
     @PostMapping
-    public String sortSubmit(@ModelAttribute FormInput formInput, Model model){
+    public String sortSubmit(@Valid @ModelAttribute FormInput formInput, Errors errors, Model model){
+        if(errors.hasErrors()) {
+            return "index";
+        }
         String type = formInput.getType();
         switch (type) {
             case "text": {

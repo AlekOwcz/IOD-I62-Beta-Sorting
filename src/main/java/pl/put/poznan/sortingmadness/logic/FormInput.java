@@ -1,11 +1,19 @@
 package pl.put.poznan.sortingmadness.logic;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 public class FormInput {
+    @NotNull
+    @Size(min = 1)
     List<String> methods;
+    @NotNull
     String order;
+    @NotBlank
     String data;
+    @NotNull
     String type;
     String attribute;
 
