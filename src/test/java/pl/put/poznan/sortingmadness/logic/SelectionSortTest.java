@@ -3,12 +3,14 @@ package pl.put.poznan.sortingmadness.logic;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class SelectionSortTest {
     ArrayList<Double> data = null;
@@ -63,5 +65,14 @@ class SelectionSortTest {
         result = selectionSorter.sort(dataString);
         ArrayList<String> expected = new ArrayList<String>(Arrays.asList("foo","dog","cat","bar"));
         assertEquals(expected, result);
+    }
+
+    @Test
+    void testSelectionComparisons(){
+        Comparator<Double> cmp = mock(Comparator.class);
+        SelectionSort<Double> sorter = new SelectionSort<Double>(cmp);
+        ArrayList<Double> result = null;
+        result = sorter.sort(data);
+        verify(cmp, times(6)).compare(Mockito.anyDouble(), Mockito.anyDouble());
     }
 }

@@ -54,7 +54,7 @@ public class SelectionSort<T extends  Comparable<T>> implements SortingStrategy<
         for(int i = 0; i < data.size(); i++) {
             T max = data.get(i);
             int index = i;
-            for(int j = i; j < data.size(); j++) {
+            for(int j = i+1; j < data.size(); j++) {
                 if (comparator.compare(max , data.get(j)) > 0) {
                     max = data.get(j);
                     index = j;

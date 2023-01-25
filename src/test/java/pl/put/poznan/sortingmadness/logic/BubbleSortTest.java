@@ -1,13 +1,17 @@
 package pl.put.poznan.sortingmadness.logic;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class BubbleSortTest {
     ArrayList<Double> data = null;
@@ -64,4 +68,12 @@ class BubbleSortTest {
         assertEquals(expected, result);
     }
 
+    @Test
+    void testBubbleComparisons(){
+        Comparator<String> cmp = mock(Comparator.class);
+        BubbleSort<String> bubbleSorter = new BubbleSort<String>(cmp);
+        ArrayList<String> result = null;
+        result = bubbleSorter.sort(dataString);
+        verify(cmp, times(6)).compare(Mockito.anyString(), Mockito.anyString());
+    }
 }
