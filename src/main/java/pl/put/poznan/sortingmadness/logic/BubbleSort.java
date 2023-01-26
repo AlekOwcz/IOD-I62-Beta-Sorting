@@ -20,8 +20,9 @@ public class BubbleSort<T extends  Comparable<T>> implements SortingStrategy<T> 
     private final Logger logger;
 
     /**
-     * Constructor for one dimensional arrays.
+     * Constructorabc for one dimensional arrays.
      * @param comparator - comparator object of generic type.
+     *                   abcdef
      */
     public BubbleSort(Comparator<T> comparator) {
         this.comparator = comparator;
